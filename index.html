@@ -24,10 +24,7 @@
             position: relative;
         }
 
-        /* =========================
-           VESMÍRNÉ PLÁTNO (Hvězdy, mlhoviny, meteory)
-        ========================= */
-
+        /* Vesmírné plátno na pozadí */
         #space-canvas {
             position: fixed;
             top: 0;
@@ -38,10 +35,7 @@
             z-index: -1;
         }
 
-        /* =========================
-           NAVIGACE
-        ========================= */
-
+        /* Navigace */
         nav {
             position: fixed;
             top: 0;
@@ -82,10 +76,7 @@
             text-shadow: 0 0 15px rgba(180,220,255,0.5);
         }
 
-        /* =========================
-           HERO
-        ========================= */
-
+        /* Hero sekce */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -159,10 +150,7 @@
             border-color: rgba(180,220,235,0.35);
         }
 
-        /* =========================
-           SEKCE
-        ========================= */
-
+        /* Sekce */
         section {
             max-width: 1200px;
             margin: auto;
@@ -192,10 +180,7 @@
             margin-bottom: 45px;
         }
 
-        /* =========================
-           BIOMY
-        ========================= */
-
+        /* Biomy */
         .biomes {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -252,10 +237,7 @@
             line-height: 1.6;
         }
 
-        /* =========================
-           KVÍZ
-        ========================= */
-
+        /* Kvíz box */
         .quiz-box {
             padding: 70px 40px;
             border: 1px solid rgba(255,255,255,0.12);
@@ -272,10 +254,7 @@
             line-height: 1.8;
         }
 
-        /* =========================
-           BLOG
-        ========================= */
-
+        /* Blog */
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -311,10 +290,7 @@
             line-height: 1.7;
         }
 
-        /* =========================
-           SHOP
-        ========================= */
-
+        /* Shop */
         .shop-box {
             text-align: center;
             padding: 70px 30px;
@@ -324,10 +300,7 @@
             backdrop-filter: blur(10px);
         }
 
-        /* =========================
-           FOOTER
-        ========================= */
-
+        /* Footer */
         footer {
             border-top: 1px solid rgba(255,255,255,0.08);
             padding: 50px 6%;
@@ -358,12 +331,9 @@
 
 <body>
 
-<!-- Vesmírné plátno pozadí -->
 <canvas id="space-canvas"></canvas>
 
-<!-- =========================
-     NAVIGACE
-========================= -->
+<!-- Navigace -->
 <nav>
     <a href="#" class="nav-logo">ANTIRŌS</a>
     <ul class="nav-links">
@@ -375,9 +345,7 @@
     </ul>
 </nav>
 
-<!-- =========================
-     HERO
-========================= -->
+<!-- Hero -->
 <header class="hero">
     <div class="hero-content">
         <div class="eyebrow">Svět za hranicí známého</div>
@@ -394,9 +362,7 @@
     </div>
 </header>
 
-<!-- =========================
-     SVĚT
-========================= -->
+<!-- Svět -->
 <section id="svet">
     <div class="section-label">Začátek cesty</div>
     <h2>Svět Antirōsu</h2>
@@ -408,9 +374,7 @@
     </p>
 </section>
 
-<!-- =========================
-     BIOMY
-========================= -->
+<!-- Biomy -->
 <section id="biomy">
     <div class="section-label">Dvanáct světů</div>
     <h2>Biomy Antirōsu</h2>
@@ -432,9 +396,7 @@
     </div>
 </section>
 
-<!-- =========================
-     KVÍZ
-========================= -->
+<!-- Kvíz -->
 <section id="kviz">
     <div class="quiz-box">
         <div class="section-label">Tvoje cesta</div>
@@ -444,9 +406,7 @@
     </div>
 </section>
 
-<!-- =========================
-     BLOG
-========================= -->
+<!-- Blog -->
 <section id="blog">
     <div class="section-label">Zápisky z Antirōsu</div>
     <h2>Blog</h2>
@@ -459,9 +419,7 @@
     </div>
 </section>
 
-<!-- =========================
-     SHOP
-========================= -->
+<!-- Shop -->
 <section id="shop">
     <div class="shop-box">
         <div class="section-label">Předměty z jiného světa</div>
@@ -471,17 +429,13 @@
     </div>
 </section>
 
-<!-- =========================
-     FOOTER
-========================= -->
+<!-- Footer -->
 <footer>
     <strong>ANTIRŌS</strong>
     <p>Svět za hranicí známého.</p>
 </footer>
 
-<!-- =========================
-     JASAVÝ VESMÍRNÝ SKRIPT (Mlhoviny, Hvězdy, Meteory)
-========================= -->
+<!-- Vesmírný skript s galaxií Antirōsu, planetami a meteory -->
 <script>
     const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
@@ -489,6 +443,7 @@
     let width, height;
     let stars = [];
     let nebulae = [];
+    let planets = [];
     let shootingStars = [];
 
     function resize() {
@@ -498,13 +453,12 @@
     window.addEventListener('resize', resize);
     resize();
 
-    // Třída pro mlhoviny (jemné barevné galaktické obláčky)
+    // Galaktické mlhoviny
     class Nebula {
         constructor() {
             this.x = Math.random() * width;
             this.y = Math.random() * height;
-            this.radius = Math.random() * 300 + 200;
-            // Barvy laděné do tónů Antirōsu (modravá, tyrkysová, fialková)
+            this.radius = Math.random() * 350 + 200;
             const colors = [
                 'rgba(80, 140, 200, 0.03)',
                 'rgba(120, 90, 180, 0.025)',
@@ -512,8 +466,8 @@
                 'rgba(100, 210, 230, 0.015)'
             ];
             this.color = colors[Math.floor(Math.random() * colors.length)];
-            this.vx = (Math.random() - 0.5) * 0.05;
-            this.vy = (Math.random() - 0.5) * 0.05;
+            this.vx = (Math.random() - 0.5) * 0.04;
+            this.vy = (Math.random() - 0.5) * 0.04;
         }
 
         update() {
@@ -536,7 +490,7 @@
         }
     }
 
-    // Třída pro hvězdy (náhodná velikost a různě rychlé pulzování)
+    // Hvězdy
     class Star {
         constructor() {
             this.x = Math.random() * width;
@@ -562,7 +516,47 @@
         }
     }
 
-    // Třída pro občasné meteory
+    // Planety galaxie Antirōsu (obíhající po orbitách)
+    class Planet {
+        constructor(orbitRadius, size, color, speed, name) {
+            this.orbitRadius = orbitRadius; // Vzdálenost od středu galaxie
+            this.size = size;
+            this.color = color;
+            this.speed = speed;
+            this.angle = Math.random() * Math.PI * 2; // Náhodná počáteční pozice na oběžné dráze
+            this.name = name;
+        }
+
+        update() {
+            this.angle += this.speed; // Pohyb po oběžné dráze
+        }
+
+        draw(centerX, centerY) {
+            // Výpočet pozice planety podle úhlu
+            const x = centerX + Math.cos(this.angle) * this.orbitRadius;
+            const y = centerY + Math.sin(this.angle) * this.orbitRadius;
+
+            // Kreslení oběžné dráhy (velmi jemná linka)
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, this.orbitRadius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Kreslení samotné planety
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(x, y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Jemná atmosféra kolem planety
+            ctx.strokeStyle = 'rgba(180, 220, 255, 0.15)';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+        }
+    }
+
+    // Meteory
     class ShootingStar {
         constructor() {
             this.reset();
@@ -573,10 +567,9 @@
             this.y = 0;
             this.len = Math.random() * 80 + 40;
             this.speed = Math.random() * 8 + 6;
-            this.angle = Math.PI / 4; // padají šikmo
+            this.angle = Math.PI / 4;
             this.opacity = 1;
             this.active = false;
-            // Náhodné spuštění meteoru s prodlevou
             this.delay = Math.floor(Math.random() * 300) + 100;
         }
 
@@ -606,45 +599,38 @@
         }
     }
 
-    // Inicializace objektů
     function initSpace() {
         stars = [];
         nebulae = [];
+        planets = [];
         shootingStars = [];
 
         for (let i = 0; i < 180; i++) stars.push(new Star());
         for (let i = 0; i < 5; i++) nebulae.push(new Nebula());
-        for (let i = 0; i < 3; i++) shootingStars.glob = shootingStars.push(new ShootingStar());
+        for (let i = 0; i < 3; i++) shootingStars.push(new ShootingStar());
+
+        // Přidání planet galaxie Antirōsu (střed galaxie bude uprostřed obrazovky)
+        planets.push(new Planet(180, 4, 'rgba(120, 190, 220, 0.8)', 0.003, 'Şivrűa Prime'));
+        planets.push(new Planet(270, 6, 'rgba(90, 130, 190, 0.75)', 0.002, 'Thalor Orbit'));
+        planets.push(new Planet(380, 5, 'rgba(210, 170, 120, 0.7)', 0.0015, 'Shaqaar Minor'));
+        planets.push(new Planet(500, 7, 'rgba(150, 110, 200, 0.7)', 0.001, 'Veyran Outer'));
     }
 
-    // Hlavní animační smyčka
     function animate() {
         ctx.clearRect(0, 0, width, height);
 
-        // Vykreslení mlhovin (pozadí galaxie)
-        nebulae.forEach(n => {
-            n.update();
-            n.draw();
-        });
+        // Střed galaxie Antirōsu (umístěný mírně nad střed obrazovky)
+        const galaxyCenterX = width / 2;
+        const galaxycenterY = height / 2.5;
 
-        // Vykreslení hvězd
-        stars.forEach(s => {
-            s.update();
-            s.draw();
-        });
+        // Vykreslení galaktického jádra (zářící mlhovina středu)
+        const coreGradient = ctx.createRadialGradient(galaxyCenterX, galaxycenterY, 0, galaxyCenterX, galaxycenterY, 300);
+        coreGradient.addColorStop(0, 'rgba(130, 190, 230, 0.08)');
+        coreGradient.addColorStop(0.5, 'rgba(90, 120, 180, 0.03)');
+        coreGradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = coreGradient;
+        ctx.beginPath();
+        ctx.arc(galaxyCenterX, galaxycenterY, 300, 0, Math.PI * 2);
+        ctx.fill();
 
-        // Vykreslení meteorů
-        shootingStars.forEach(ss => {
-            ss.update();
-            ss.draw();
-        });
-
-        requestAnimationFrame(animate);
-    }
-
-    initSpace();
-    animate();
-</script>
-
-</body>
-</html>
+        
