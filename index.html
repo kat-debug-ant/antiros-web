@@ -435,7 +435,7 @@
     <p>Svět za hranicí známého.</p>
 </footer>
 
-<!-- Vesmírný skript s galaxií Antirōsu, planetami a meteory -->
+<!-- Vesmírný skript s galaxií, mlhovinami, planetami a meteory -->
 <script>
     const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
@@ -453,17 +453,17 @@
     window.addEventListener('resize', resize);
     resize();
 
-    // Galaktické mlhoviny
+    // Třída pro mlhoviny pozadí
     class Nebula {
         constructor() {
             this.x = Math.random() * width;
             this.y = Math.random() * height;
             this.radius = Math.random() * 350 + 200;
             const colors = [
-                'rgba(80, 140, 200, 0.03)',
-                'rgba(120, 90, 180, 0.025)',
-                'rgba(50, 180, 210, 0.02)',
-                'rgba(100, 210, 230, 0.015)'
+                'rgba(80, 140, 200, 0.035)',
+                'rgba(120, 90, 180, 0.03)',
+                'rgba(50, 180, 210, 0.025)',
+                'rgba(100, 210, 230, 0.02)'
             ];
             this.color = colors[Math.floor(Math.random() * colors.length)];
             this.vx = (Math.random() - 0.5) * 0.04;
@@ -516,42 +516,41 @@
         }
     }
 
-    // Planety galaxie Antirōsu (obíhající po orbitách)
+    // Planety obíhající galaxii Antirōsu
     class Planet {
         constructor(orbitRadius, size, color, speed, name) {
-            this.orbitRadius = orbitRadius; // Vzdálenost od středu galaxie
+            this.orbitRadius = orbitRadius;
             this.size = size;
             this.color = color;
             this.speed = speed;
-            this.angle = Math.random() * Math.PI * 2; // Náhodná počáteční pozice na oběžné dráze
+            this.angle = Math.random() * Math.PI * 2;
             this.name = name;
         }
 
         update() {
-            this.angle += this.speed; // Pohyb po oběžné dráze
+            this.angle += this.speed;
         }
 
         draw(centerX, centerY) {
-            // Výpočet pozice planety podle úhlu
             const x = centerX + Math.cos(this.angle) * this.orbitRadius;
             const y = centerY + Math.sin(this.angle) * this.orbitRadius;
 
-            // Kreslení oběžné dráhy (velmi jemná linka)
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+            // Oběžná dráha
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.arc(centerX, centerY, this.orbitRadius, 0, Math.PI * 2);
             ctx.stroke();
 
-            // Kreslení samotné planety
+            // Těleso planety
             ctx.fillStyle = this.color;
             ctx.beginPath();
             ctx.arc(x, y, this.size, 0, Math.PI * 2);
             ctx.fill();
 
-            // Jemná atmosféra kolem planety
-            ctx.strokeStyle = 'rgba(180, 220, 255, 0.15)';
-            ctx.lineWidth = 0.5;
+            // Atmosféra planety
+            ctx.strokeStyle = 'rgba(180, 220, 255, 0.25)';
+            ctx.lineWidth = 0.75;
             ctx.stroke();
         }
     }
@@ -606,66 +605,46 @@
         shootingStars = [];
 
         for (let i = 0; i < 180; i++) stars.push(new Star());
-        for (let i = 0; i < 5; i++) nebulae.push(new Nebula());
+        for (let i = 0; i < 6; i++) nebulae.push(new Nebula());
         for (let i = 0; i < 3; i++) shootingStars.push(new ShootingStar());
 
-        // Přidání planet galaxie Antirōsu (střed galaxie bude uprostřed obrazovky)
-        planets.push(new Planet(180, 4, 'rgba(120, 190, 220, 0.8)', 0.003, 'Şivrűa Prime'));
-        planets.push(new Planet(270, 6, 'rgba(90, 130, 190, 0.75)', 0.002, 'Thalor Orbit'));
-        planets.push(new Planet(380, 5, 'rgba(210, 170, 120, 0.7)', 0.0015, 'Shaqaar Minor'));
-        planets.push(new Planet(500, 7, 'rgba(150, 110, 200, 0.7)', 0.001, 'Veyran Outer'));
+        // Planety obíhající galaxii Antirōsu
+        planets.push(new Planet(160, 4.5, 'rgba(120, 190, 220, 0.85)', 0.003, 'Şivrűa Prime'));
+        planets.push(new Planet(240, 6, 'rgba(90, 130, 190, 0.8)', 0.0022, 'Thalor Orbit'));
+        planets.push(new Planet(340, 5, 'rgba(210, 170, 120, 0.75)', 0.0016, 'Shaqaar Minor'));
+        planets.push(new Planet(460, 7.5, 'rgba(150, 110, 200, 0.75)', 0.001, 'Veyran Outer'));
     }
 
     function animate() {
         ctx.clearRect(0, 0, width, height);
 
-        // Střed galaxie Antirōsu (umístěný mírně nad střed obrazovky)
+        // Střed galaxie Antirōsu
         const galaxyCenterX = width / 2;
         const galaxycenterY = height / 2.5;
 
-        // Vykreslení galaktického jádra (zářící mlhovina středu)
-        const coreGradient = ctx.createRadialGradient(galaxyCenterX, galaxycenterY, 0, galaxyCenterX, galaxycenterY, 300);
-        coreGradient.addColorStop(0, 'rgba(130, 190, 230, 0.08)');
-        coreGradient.addColorStop(0.5, 'rgba(90, 120, 180, 0.03)');
+        // Jádro galaxie
+        const coreGradient = ctx.createRadialGradient(galaxyCenterX, galaxycenterY, 0, galaxyCenterX, galaxycenterY, 350);
+        coreGradient.addColorStop(0, 'rgba(130, 190, 230, 0.12)');
+        coreGradient.addColorStop(0.5, 'rgba(90, 120, 180, 0.05)');
         coreGradient.addColorStop(1, 'transparent');
         ctx.fillStyle = coreGradient;
         ctx.beginPath();
-        ctx.arc(galaxyCenterX, galaxycenterY, 300, 0, Math.PI * 2);
+        ctx.arc(galaxyCenterX, galaxycenterY, 350, 0, Math.PI * 2);
         ctx.fill();
 
-        // Pozadí mlhovin
+        // 1. Vykreslení mlhovin pozadí (opraveno)
         nebulae.forEach(n => {
             n.update();
             n.draw();
         });
 
-        // Hvězdy
+        // 2. Vykreslení hvězd
         stars.forEach(s => {
             s.update();
             s.draw();
         });
 
-        // Planety obíhající galaxii Antirōs
-        planets.push(
-            // Aktualizace a vykreslení planet
-        );
+        // 3. Vykreslení obíhajících planet galaxie Antirōsu
         planets.forEach(p => {
             p.update();
-            p.draw(galaxyCenterX, galaxycenterY);
-        });
-
-        // Meteory
-        shootingStars.forEach(ss => {
-            ss.update();
-            ss.draw();
-        });
-
-        requestAnimationFrame(animate);
-    }
-
-    initSpace();
-    animate();
-</script>
-
-</body>
-</html>
+            p.draw(g
