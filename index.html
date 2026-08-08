@@ -535,25 +535,28 @@
             const x = centerX + Math.cos(this.angle) * this.orbitRadius;
             const y = centerY + Math.sin(this.angle) * this.orbitRadius;
 
-            // Oběžná dráha
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
+            // Kreslení oběžné dráhy
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.arc(centerX, centerY, this.orbitRadius, 0, Math.PI * 2);
             ctx.stroke();
 
-            // Těleso planety
+            // Záře/atmosféra kolem planety
+            const glow = ctx.createRadialGradient(x, y, 0, x, y, this.size * 2.5);
+            glow.addColorStop(0, this.color);
+            glow.addColorStop(1, 'transparent');
+            ctx.fillStyle = glow;
+            ctx.beginPath();
+            ctx.arc(x, y, this.size * 2.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Vlastní těleso planety
             ctx.fillStyle = this.color;
             ctx.beginPath();
             ctx.arc(x, y, this.size, 0, Math.PI * 2);
             ctx.fill();
-
-            // Atmosféra planety
-            ctx.strokeStyle = 'rgba(180, 220, 255, 0.25)';
-            ctx.lineWidth = 0.75;
-            ctx.stroke();
         }
-    }
 
     // Meteory
     class ShootingStar {
