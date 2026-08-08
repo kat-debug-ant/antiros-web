@@ -647,4 +647,21 @@
         // 3. Vykreslení obíhajících planet galaxie Antirōsu
         planets.forEach(p => {
             p.update();
-            p.draw(g
+            p.draw(galaxyCenterX, galaxycenterY);
+        });
+
+        // 4. Vykreslení meteorů
+        shootingStars.forEach(ss => {
+            ss.update();
+            ss.draw();
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    initSpace();
+    animate();
+</script>
+
+</body>
+</html>
