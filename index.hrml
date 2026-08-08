@@ -1,1 +1,149 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Antirōs — Svět za hranicí známého</title>
+
+    <meta
+        name="description"
+        content="Antirōs — fantasy svět plný biomů, kmenů, bytostí, příběhů a tajemství."
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #080a12;
+            color: #eeeef5;
+            font-family: Georgia, serif;
+        }
+
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .logo {
+            font-size: clamp(4rem, 12vw, 9rem);
+            letter-spacing: 0.15em;
+            font-weight: normal;
+        }
+
+        .subtitle {
+            margin-top: 20px;
+            max-width: 600px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.75;
+        }
+
+        nav {
+            margin-top: 45px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        nav a {
+            color: #eeeef5;
+            text-decoration: none;
+            padding: 12px 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .section {
+            padding: 100px 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+
+        .section p {
+            max-width: 700px;
+            line-height: 1.8;
+            opacity: 0.75;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">ANTIRŌS</div>
+
+    <div class="subtitle">
+        Svět za hranicí známého.<br>
+        Dvanáct biomů. Třicet šest kmenů. Nespočet příběhů.
+    </div>
+
+    <nav>
+        <a href="#svet">Svět</a>
+        <a href="#kviz">Kvíz</a>
+        <a href="#blog">Blog</a>
+        <a href="#bestiář">Bestiář</a>
+        <a href="#shop">Shop</a>
+    </nav>
+</header>
+
+<section class="section" id="svet">
+    <h2>Svět Antirōsu</h2>
+    <p>
+        Antirōs je svět plný živých biomů, kmenů, bytostí,
+        tajemství a míst, která čekají na objevení.
+    </p>
+</section>
+
+<section class="section" id="kviz">
+    <h2>Najdi svůj biom</h2>
+    <p>
+        Které místo v Antirōsu odpovídá tomu, kým skutečně jsi?
+    </p>
+</section>
+
+<section class="section" id="blog">
+    <h2>Blog</h2>
+    <p>
+        Příběhy, novinky, zákulisí tvorby a objevy ze světa Antirōsu.
+    </p>
+</section>
+
+<section class="section" id="bestiář">
+    <h2>Bestiář</h2>
+    <p>
+        Bytosti, rostliny a další život, který obývá Antirōs.
+    </p>
+</section>
+
+<section class="section" id="shop">
+    <h2>Shop</h2>
+    <p>
+        Předměty inspirované světem Antirōsu.
+    </p>
+</section>
+
+</body>
+</html>
