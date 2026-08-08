@@ -622,6 +622,12 @@
         const galaxyCenterX = width / 2;
         const galaxycenterY = height / 2.5;
 
+        // 1. Vykreslení mlhovin pozadí 
+        nebulae.forEach(n => {
+            n.update();
+            n.draw();
+        });
+
         // Jádro galaxie
         const coreGradient = ctx.createRadialGradient(galaxyCenterX, galaxycenterY, 0, galaxyCenterX, galaxycenterY, 350);
         coreGradient.addColorStop(0, 'rgba(130, 190, 230, 0.12)');
@@ -629,14 +635,8 @@
         coreGradient.addColorStop(1, 'transparent');
         ctx.fillStyle = coreGradient;
         ctx.beginPath();
-        ctx.arc(galaxyCenterX, galaxycenterY, 350, 0, Math.PI * 2);
+        ctx.arc(galaxyCenterX, galaxyCenterY, 300, 0, Math.PI * 2);
         ctx.fill();
-
-        // 1. Vykreslení mlhovin pozadí (opraveno)
-        nebulae.forEach(n => {
-            n.update();
-            n.draw();
-        });
 
         // 2. Vykreslení hvězd
         stars.forEach(s => {
