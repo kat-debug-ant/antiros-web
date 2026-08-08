@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antirōs — Kvíz</title>
+    <title>Antirōs — Hvězdný Cik-Cak</title>
     <style>
+        /* Základní styly pro plátno a reset */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -12,296 +13,265 @@
         }
 
         body {
-            min-height: 100vh;
+            height: 100vh;
+            /* Tmavé pozadí zůstává */
             background: #05070d;
-            color: #eeeef5;
-            font-family: Georgia, "Times New Roman", serif;
+            overflow: hidden; /* Skryje scrollbary, pokud by vznikly */
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 30px;
+            color: #eeeef5;
+            font-family: Georgia, "Times New Roman", serif;
+            position: relative;
         }
 
+        /* Plátno pro hvězdy (absolutní pozice přes celou obrazovku) */
+        #starfield {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Hvězdy jsou úplně vzadu */
+        }
+
+        /* Obsah kvízu (musí být nad hvězdami) */
         .quiz {
             width: 100%;
             max-width: 800px;
             text-align: center;
+            z-index: 10; /* Vyšší z-index než hvězdy */
+            /* Přidáme jemný stín, aby text lépe vynikl na hvězdách */
+            text-shadow: 0 0 10px rgba(5, 7, 13, 0.8);
+            padding: 30px;
         }
 
-        .title {
-            font-size: 0.75rem;
-            letter-spacing: 0.4em;
-            opacity: 0.5;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: normal;
-            letter-spacing: 0.08em;
-            margin-bottom: 20px;
-        }
-
-        .description {
-            color: #aaa8b5;
-            line-height: 1.8;
-            margin-bottom: 45px;
-        }
-
-        .question {
-            padding: 40px 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            background: rgba(255,255,255,0.035);
-            backdrop-filter: blur(12px);
-        }
-
-        .progress {
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            opacity: 0.45;
-            margin-bottom: 25px;
-        }
-
-        h2 {
-            font-size: clamp(1.5rem, 4vw, 2.2rem);
-            font-weight: normal;
-            line-height: 1.5;
-            margin-bottom: 35px;
-        }
-
-        .answers {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .answer {
-            width: 100%;
-            padding: 18px 20px;
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 14px;
-            background: rgba(255,255,255,0.025);
-            color: #eeeef5;
-            font-family: inherit;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.25s;
-            text-align: left;
-        }
-
-        .answer:hover {
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(180,220,255,0.35);
-            transform: translateY(-2px);
-        }
-
-        .result {
-            display: none;
-            padding: 50px 30px;
-            border: 1px solid rgba(255,255,255,0.14);
-            border-radius: 25px;
-            background:
-                radial-gradient(
-                    circle at center,
-                    rgba(120,160,190,0.12),
-                    transparent 70%
-                ),
-                rgba(255,255,255,0.03);
-        }
-
-        .result-label {
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
-            opacity: 0.5;
-            margin-bottom: 20px;
-        }
-
-        .result h2 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            margin-bottom: 10px;
-        }
-
-        .tribe {
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            opacity: 0.85;
-        }
-
-        .result-description {
-            color: #aaa8b5;
-            line-height: 1.8;
-            max-width: 600px;
-            margin: auto;
-        }
+        /* Zbytek vašich původních stylů (ponecháno pro konzistenci) */
+        .title { font-size: 0.75rem; letter-spacing: 0.4em; opacity: 0.5; margin-bottom: 20px; }
+        h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: normal; letter-spacing: 0.08em; margin-bottom: 20px; }
+        .description { color: #aaa8b5; line-height: 1.8; margin-bottom: 45px; }
+        .question { padding: 40px 25px; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
+        .progress { font-size: 0.75rem; letter-spacing: 0.2em; opacity: 0.45; margin-bottom: 25px; }
+        h2 { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: normal; line-height: 1.5; margin-bottom: 35px; }
+        .answers { display: flex; flex-direction: column; gap: 12px; }
+        .answer { width: 100%; padding: 18px 20px; border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; background: rgba(255,255,255,0.025); color: #eeeef5; font-family: inherit; font-size: 1rem; cursor: pointer; transition: 0.25s; text-align: left; }
+        .answer:hover { background: rgba(255,255,255,0.08); border-color: rgba(180,220,255,0.35); transform: translateY(-2px); }
+        .result { display: none; padding: 50px 30px; border: 1px solid rgba(255,255,255,0.14); border-radius: 25px; background: rgba(0,0,0,0.6); }
+        .result-label { font-size: 0.75rem; letter-spacing: 0.3em; opacity: 0.5; margin-bottom: 20px; }
+        .result h2 { font-size: clamp(2.5rem, 8vw, 5rem); margin-bottom: 10px; }
+        .tribe { font-size: 1.5rem; margin-bottom: 25px; opacity: 0.85; }
+        .result-description { color: #aaa8b5; line-height: 1.8; max-width: 600px; margin: auto; }
     </style>
 </head>
 
 <body>
 
-<div class="quiz">
+    <!-- HTML5 Canvas element pro hvězdy -->
+    <canvas id="starfield"></canvas>
 
-    <div class="title">
-        ANTIRŌS
-    </div>
-
-    <h1>
-        Najdi svůj biom
-    </h1>
-
-    <p class="description" id="mainDesc">
-        Odpovědi nejsou správné ani špatné.
-        Každá z nich odhaluje něco o tom,
-        jak vnímáš svět.
-    </p>
-
-    <div class="question" id="questionBox">
-        <div class="progress" id="progress">
-            OTÁZKA 1
-        </div>
-        <h2 id="question">
-            Načítání...
-        </h2>
-        <div class="answers" id="answers">
-            <!-- Tlačítka se generují přes JS -->
-        </div>
-    </div>
-
-    <div class="result" id="resultBox">
-        <div class="result-label">
-            TVŮJ VÝSLEDEK
-        </div>
-        <h2 id="resultBiome">
-            Biom
-        </h2>
-        <div class="tribe" id="resultTribe">
-            Kmen
-        </div>
-        <p class="result-description" id="resultDescription">
-            Výsledek kvízu se zobrazí zde.
+    <div class="quiz">
+        <div class="title">ANTIRŌS</div>
+        <h1>Najdi svůj biom</h1>
+        <p class="description" id="mainDesc">
+            Odpovědi nejsou správné ani špatné.
+            Každá z nich odhaluje něco o tom,
+            jak vnímáš svět.
         </p>
+
+        <div class="question" id="questionBox">
+            <div class="progress" id="progress">OTÁZKA 1</div>
+            <h2 id="question">Načítání...</h2>
+            <div class="answers" id="answers">
+                <!-- Tlačítka se generují přes JS -->
+            </div>
+        </div>
+
+        <div class="result" id="resultBox">
+            <div class="result-label">TVŮJ VÝSLEDEK</div>
+            <h2 id="resultBiome">Biom</h2>
+            <div class="tribe" id="resultTribe">Kmen</div>
+            <p class="result-description" id="resultDescription">
+                Výsledek kvízu se zobrazí zde.
+            </p>
+        </div>
     </div>
 
-</div>
+    <script>
+        // --- ČÁST 1: Animované hvězdy na Canvasu ---
 
-<script>
-    // Definice otázek a přiřazení bodů k biomům
-    const quizData = [
-        {
-            question: "Když se ocitneš v úplně neznámém prostředí, co uděláš jako první?",
-            answers: [
-                { text: "Pozoruji okolí a snažím se pochopit, co se děje.", biome: "biome1" },
-                { text: "Hledám někoho, s kým můžu situaci řešit společně.", biome: "biome2" },
-                { text: "Prostě vyrazím vpřed a zjistím to cestou.", biome: "biome3" },
-                { text: "Nejdřív si vytvořím plán a promyslím možné scénáře.", biome: "biome4" }
-            ]
-        },
-        {
-            question: "Jaká atmosféra v tobě probouzí pocit klidu?",
-            answers: [
-                { text: "Tmavý les protkaný světélkujícími houbami a tichem.", biome: "biome1" },
-                { text: "Šumění vln, hluboké modré tůně a tajemství pod hladinou.", biome: "biome2" },
-                { text: "Divoká, nespoutaná krajina plná větru a starých kamenů.", biome: "biome3" },
-                { text: "Skrytá místa plná starých svitků, krystalů a vědění.", biome: "biome4" }
-            ]
-        },
-        {
-            question: "Co je tvou největší vnitřní silou?",
-            answers: [
-                { text: "Trpělivost a schopnost naslouchat skrytým detailům.", biome: "biome1" },
-                { text: "Empatie a propojování ostatních dohromady.", biome: "biome2" },
-                { text: "Odhodlání a odvaha jít kupředu i přes překážky.", biome: "biome3" },
-                { text: "Analytická mysl a hledání hlubších souvislostí.", biome: "biome4" }
-            ]
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+
+        let stars = [];
+        const numStars = 150; // Počet hvězd (upravte dle potřeby)
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
-    ];
 
-    // Definice výsledných biomů
-    const biomeResults = {
-        biome1: {
-            name: "Şivrűa",
-            tribe: "Nhaurë",
-            description: "Tvoje duše patří do míst zahalených do bioluminiscenčního ticha. Vnímáš to, co ostatním zůstává skryté, a nacházíš sílu v klidu a hloubce přírody."
-        },
-        biome2: {
-            name: "Thalor",
-            tribe: "Vlny a Hlubiny",
-            description: "Jsi spojen(a) s proudem světa. Dokážeš se přizpůsobit každé vlně a tvoje přítomnost přináší ostatním stabilitu i v bouřlivých časech."
-        },
-        biome3: {
-            name: "Aethel",
-            tribe: "Nespoutaní",
-            description: "Tvoje kroky vedou tam, kam ostatní váhají vstoupit. Vede tě zvědavost, svoboda a neukojitelná touha objevovat neznámé obzory."
-        },
-        biome4: {
-            name: "Vahl",
-            tribe: "Strážci řádu",
-            description: "Vidíš strukturu tam, kde ostatní vidí chaos. Tvá mysl staví mosty z logiky a představivosti a tvoří pevné základy pro budoucnost."
-        }
-    };
+        // Třída pro jednu hvězdu
+        class Star {
+            constructor() {
+                this.init();
+            }
 
-    let currentQuestionIndex = 0;
-    let scores = { biome1: 0, biome2: 0, biome3: 0, biome4: 0 };
+            init() {
+                this.x = Math.random() * canvas.width; // Náhodná pozice X
+                this.y = Math.random() * canvas.height; // Náhodná pozice Y
+                this.size = Math.random() * 1.5; // Náhodná velikost (0 až 1.5px)
+                
+                // Náhodná rychlost pulzování (hodnota mezi 0.005 a 0.03)
+                this.pulseSpeed = Math.random() * 0.025 + 0.005;
+                
+                // Aktuální fáze pulzování (0 až 2*PI)
+                this.pulsePhase = Math.random() * Math.PI * 2; 
+            }
 
-    const progressEl = document.getElementById("progress");
-    const questionEl = document.getElementById("question");
-    const answersEl = document.getElementById("answers");
-    const questionBox = document.getElementById("questionBox");
-    const resultBox = document.getElementById("resultBox");
-    const mainDesc = document.getElementById("mainDesc");
+            update() {
+                // Změna fáze pro animaci
+                this.pulsePhase += this.pulseSpeed;
+                
+                // Výpočet průhlednosti (opacity) pomocí sinu pro plynulé blikání
+                // Math.sin vrátí hodnotu -1 až 1. Převedeme na 0.1 až 0.9
+                this.opacity = (Math.sin(this.pulsePhase) + 1) / 2 * 0.8 + 0.1;
+                
+                // Změna jasu hvězdy
+                // Můžete přidat i velmi jemný pohyb "cik-cak" pokud chcete:
+                // this.y += Math.sin(this.pulsePhase) * 0.2; 
+            }
 
-    function loadQuestion() {
-        const currentData = quizData[currentQuestionIndex];
-        progressEl.textContent = `OTÁZKA ${currentQuestionIndex + 1} Z ${quizData.length}`;
-        questionEl.textContent = currentData.question;
-        
-        answersEl.innerHTML = "";
-        
-        currentData.answers.forEach(answer => {
-            const button = document.createElement("button");
-            button.classList.add("answer");
-            button.textContent = answer.text;
-            button.addEventListener("click", () => selectAnswer(answer.biome));
-            answersEl.appendChild(button);
-        });
-    }
-
-    function selectAnswer(biomeKey) {
-        scores[biomeKey]++;
-        currentQuestionIndex++;
-
-        if (currentQuestionIndex < quizData.length) {
-            loadQuestion();
-        } else {
-            showResult();
-        }
-    }
-
-    function showResult() {
-        questionBox.style.display = "none";
-        mainDesc.style.display = "none";
-
-        // Najít biom s nejvyšším skóre
-        let bestBiome = "biome1";
-        let maxScore = -1;
-        for (let key in scores) {
-            if (scores[key] > maxScore) {
-                maxScore = scores[key];
-                bestBiome = key;
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                // Nastavení barvy s proměnlivou průhledností
+                ctx.fillStyle = `rgba(180, 220, 255, ${this.opacity})`;
+                ctx.fill();
             }
         }
 
-        const result = biomeResults[bestBiome];
-        document.getElementById("resultBiome").textContent = result.name;
-        document.getElementById("resultTribe").textContent = result.tribe;
-        document.getElementById("resultDescription").textContent = result.description;
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < numStars; i++) {
+                stars.push(new Star());
+            }
+        }
 
-        resultBox.style.display = "block";
-    }
+        function animateStars() {
+            // Vymazání celého plátna
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Aktualizace a vykreslení každé hvězdy
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            
+            // Opakovací smyčka
+            requestAnimationFrame(animateStars);
+        }
 
-    // Spuštění kvízu
-    loadQuestion();
-</script>
+        // Inicializace
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        initStars();
+        animateStars();
+
+
+        // --- ČÁST 2: Logika Kvízu (Stejná jako předtím) ---
+        
+        const quizData = [
+            {
+                question: "Když se ocitneš v úplně neznámém prostředí, co uděláš jako první?",
+                answers: [
+                    { text: "Pozoruji okolí a snažím se pochopit, co se děje.", biome: "biome1" },
+                    { text: "Hledám někoho, s kým můžu situaci řešit společně.", biome: "biome2" },
+                    { text: "Prostě vyrazím vpřed a zjistím to cestou.", biome: "biome3" },
+                    { text: "Nejdřív si vytvořím plán a promyslím možné scénáře.", biome: "biome4" }
+                ]
+            },
+            {
+                question: "Jaká atmosféra v tobě probouzí pocit klidu?",
+                answers: [
+                    { text: "Tmavý les protkaný světélkujícími houbami a tichem.", biome: "biome1" },
+                    { text: "Šumění vln, hluboké modré tůně a tajemství pod hladinou.", biome: "biome2" },
+                    { text: "Divoká, nespoutaná krajina plná větru a starých kamenů.", biome: "biome3" },
+                    { text: "Skrytá místa plná starých svitků, krystalů a vědění.", biome: "biome4" }
+                ]
+            },
+            {
+                question: "Co je tvou největší vnitřní silou?",
+                answers: [
+                    { text: "Trpělivost a schopnost naslouchat skrytým detailům.", biome: "biome1" },
+                    { text: "Empatie a propojování ostatních dohromady.", biome: "biome2" },
+                    { text: "Odhodlání a odvaha jít kupředu i přes překážky.", biome: "biome3" },
+                    { text: "Analytická mysl a hledání hlubších souvislostí.", biome: "biome4" }
+                ]
+            }
+        ];
+
+        const biomeResults = {
+            biome1: { name: "Şivrűa", tribe: "Nhaurë", description: "Tvoje duše patří do míst zahalených do bioluminiscenčního ticha. Vnímáš to, co ostatním zůstává skryté, a nacházíš sílu v klidu a hloubce přírody." },
+            biome2: { name: "Thalor", tribe: "Vlny a Hlubiny", description: "Jsi spojen(a) s proudem světa. Dokážeš se přizpůsobit každé vlně a tvoje přítomnost přináší ostatním stabilitu i v bouřlivých časech." },
+            biome3: { name: "Aethel", tribe: "Nespoutaní", description: "Tvoje kroky vedou tam, kam ostatní váhají vstoupit. Vede tě zvědavost, svoboda a neukojitelná touha objevovat neznámé obzory." },
+            biome4: { name: "Vahl", tribe: "Strážci řádu", description: "Vidíš strukturu tam, kde ostatní vidí chaos. Tvá mysl staví mosty z logiky a představivosti a tvoří pevné základy pro budoucnost." }
+        };
+
+        let currentQuestionIndex = 0;
+        let scores = { biome1: 0, biome2: 0, biome3: 0, biome4: 0 };
+
+        const progressEl = document.getElementById("progress");
+        const questionEl = document.getElementById("question");
+        const answersEl = document.getElementById("answers");
+        const questionBox = document.getElementById("questionBox");
+        const resultBox = document.getElementById("resultBox");
+        const mainDesc = document.getElementById("mainDesc");
+
+        function loadQuestion() {
+            const currentData = quizData[currentQuestionIndex];
+            progressEl.textContent = `OTÁZKA ${currentQuestionIndex + 1} Z ${quizData.length}`;
+            questionEl.textContent = currentData.question;
+            answersEl.innerHTML = "";
+            currentData.answers.forEach(answer => {
+                const button = document.createElement("button");
+                button.classList.add("answer");
+                button.textContent = answer.text;
+                button.addEventListener("click", () => selectAnswer(answer.biome));
+                answersEl.appendChild(button);
+            });
+        }
+
+        function selectAnswer(biomeKey) {
+            scores[biomeKey]++;
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            questionBox.style.display = "none";
+            mainDesc.style.display = "none";
+            let bestBiome = "biome1";
+            let maxScore = -1;
+            for (let key in scores) {
+                if (scores[key] > maxScore) {
+                    maxScore = scores[key];
+                    bestBiome = key;
+                }
+            }
+            const result = biomeResults[bestBiome];
+            document.getElementById("resultBiome").textContent = result.name;
+            document.getElementById("resultTribe").textContent = result.tribe;
+            document.getElementById("resultDescription").textContent = result.description;
+            resultBox.style.display = "block";
+        }
+
+        // Spuštění kvízu
+        loadQuestion();
+    </script>
 
 </body>
 </html>
