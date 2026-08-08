@@ -633,4 +633,39 @@
         ctx.arc(galaxyCenterX, galaxycenterY, 300, 0, Math.PI * 2);
         ctx.fill();
 
-        
+        // Pozadí mlhovin
+        nebulae.forEach(n => {
+            n.update();
+            n.draw();
+        });
+
+        // Hvězdy
+        stars.forEach(s => {
+            s.update();
+            s.draw();
+        });
+
+        // Planety obíhající galaxii Antirōs
+        planets.push(
+            // Aktualizace a vykreslení planet
+        );
+        planets.forEach(p => {
+            p.update();
+            p.draw(galaxyCenterX, galaxycenterY);
+        });
+
+        // Meteory
+        shootingStars.forEach(ss => {
+            ss.update();
+            ss.draw();
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    initSpace();
+    animate();
+</script>
+
+</body>
+</html>
