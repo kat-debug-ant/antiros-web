@@ -8,142 +8,596 @@
 
     <meta
         name="description"
-        content="Antirōs — fantasy svět plný biomů, kmenů, bytostí, příběhů a tajemství."
+        content="Antirōs — fantasy svět dvanácti biomů, třiceti šesti kmenů, bytostí a příběhů."
     >
 
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background: #080a12;
-            color: #eeeef5;
-            font-family: Georgia, serif;
+            background:
+                radial-gradient(circle at 50% 20%, #17243b 0%, #090d18 35%, #05070d 75%);
+            color: #f0eef8;
+            font-family: Georgia, "Times New Roman", serif;
+            overflow-x: hidden;
         }
 
-        header {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px 20px;
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(112, 170, 190, 0.08), transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(150, 100, 190, 0.07), transparent 30%);
+            z-index: -1;
         }
 
-        .logo {
-            font-size: clamp(4rem, 12vw, 9rem);
-            letter-spacing: 0.15em;
-            font-weight: normal;
-        }
-
-        .subtitle {
-            margin-top: 20px;
-            max-width: 600px;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            opacity: 0.75;
-        }
+        /* NAVIGACE */
 
         nav {
-            margin-top: 45px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 22px 6%;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 7, 13, 0.65);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            z-index: 1000;
         }
 
-        nav a {
-            color: #eeeef5;
+        .nav-logo {
+            color: #ffffff;
             text-decoration: none;
-            padding: 12px 20px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 30px;
+            font-size: 1.4rem;
+            letter-spacing: 0.25em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #d9d7e3;
+            text-decoration: none;
+            font-size: 0.9rem;
             transition: 0.3s;
         }
 
-        nav a:hover {
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 25px 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            font-size: 0.75rem;
+            opacity: 0.55;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(4rem, 14vw, 10rem);
+            font-weight: normal;
+            letter-spacing: 0.12em;
+            line-height: 0.9;
+            text-shadow: 0 0 35px rgba(180, 220, 255, 0.15);
+        }
+
+        .hero-description {
+            max-width: 650px;
+            margin: 35px auto;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #c5c3cf;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 26px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: 0.3s;
+            backdrop-filter: blur(8px);
+        }
+
+        .button:hover {
             background: rgba(255,255,255,0.08);
-            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
         }
 
-        .section {
-            padding: 100px 20px;
-            max-width: 1100px;
+        .button.primary {
+            background: rgba(180, 220, 235, 0.12);
+            border-color: rgba(180, 220, 235, 0.35);
+        }
+
+        /* SEKCE */
+
+        section {
+            max-width: 1200px;
             margin: auto;
+            padding: 110px 6%;
         }
 
-        .section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+        .section-label {
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 0.7rem;
+            opacity: 0.45;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            font-weight: normal;
+            margin-bottom: 25px;
+        }
+
+        .section-intro {
+            max-width: 650px;
+            color: #aaa8b5;
+            line-height: 1.8;
+            margin-bottom: 45px;
+        }
+
+        /* BIOMY */
+
+        .biomes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
+        }
+
+        .biome {
+            min-height: 190px;
+            padding: 28px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.035);
+            backdrop-filter: blur(10px);
+            transition: 0.35s;
+        }
+
+        .biome:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .biome-number {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            opacity: 0.35;
+        }
+
+        .biome h3 {
+            margin: 18px 0 8px;
+            font-size: 1.4rem;
             font-weight: normal;
         }
 
-        .section p {
-            max-width: 700px;
+        .biome p {
+            color: #aaa8b5;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* KVÍZ */
+
+        .quiz-box {
+            padding: 60px 40px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 25px;
+            background:
+                radial-gradient(circle at center, rgba(120,160,190,0.12), transparent 65%),
+                rgba(255,255,255,0.025);
+            text-align: center;
+        }
+
+        .quiz-box p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #aaa8b5;
             line-height: 1.8;
-            opacity: 0.75;
+        }
+
+        /* BLOG */
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .article {
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .article small {
+            opacity: 0.4;
+        }
+
+        .article h3 {
+            margin: 15px 0;
+            font-size: 1.35rem;
+            font-weight: normal;
+        }
+
+        .article p {
+            color: #aaa8b5;
+            line-height: 1.7;
+        }
+
+        /* SHOP */
+
+        .shop-box {
+            text-align: center;
+            padding: 70px 30px;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.025);
+        }
+
+        /* FOOTER */
+
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 50px 6%;
+            text-align: center;
+            color: #777582;
+        }
+
+        footer strong {
+            display: block;
+            color: #dddbe5;
+            letter-spacing: 0.25em;
+            margin-bottom: 12px;
+        }
+
+        /* MOBIL */
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+
+            .hero h1 {
+                font-size: 4rem;
+            }
+
+            .quiz-box {
+                padding: 45px 20px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">ANTIRŌS</div>
+<nav>
+    <a href="#" class="nav-logo">ANTIRŌS</a>
 
-    <div class="subtitle">
-        Svět za hranicí známého.<br>
-        Dvanáct biomů. Třicet šest kmenů. Nespočet příběhů.
+    <ul class="nav-links">
+        <li><a href="#svet">Svět</a></li>
+        <li><a href="#biomy">Biomy</a></li>
+        <li><a href="#kviz">Kvíz</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#shop">Shop</a></li>
+    </ul>
+</nav>
+
+
+<!-- HERO -->
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            Svět za hranicí známého
+        </div>
+
+        <h1>ANTIRŌS</h1>
+
+        <p class="hero-description">
+            Svět, kde každý kout ukrývá vlastní život,
+            každý biom má svou duši a každý člověk může
+            najít místo, které mu skutečně náleží.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#svet" class="button primary">
+                Prozkoumat Antirōs
+            </a>
+
+            <a href="#kviz" class="button">
+                Najít svůj biom
+            </a>
+
+        </div>
+
     </div>
 
-    <nav>
-        <a href="#svet">Svět</a>
-        <a href="#kviz">Kvíz</a>
-        <a href="#blog">Blog</a>
-        <a href="#bestiář">Bestiář</a>
-        <a href="#shop">Shop</a>
-    </nav>
 </header>
 
-<section class="section" id="svet">
+
+<!-- SVĚT -->
+
+<section id="svet">
+
+    <div class="section-label">
+        Začátek cesty
+    </div>
+
     <h2>Svět Antirōsu</h2>
-    <p>
-        Antirōs je svět plný živých biomů, kmenů, bytostí,
-        tajemství a míst, která čekají na objevení.
+
+    <p class="section-intro">
+        Antirōs je živý svět tvořený rozdílnými krajinami,
+        kulturami, bytostmi a příběhy. Dvanáct biomů tvoří
+        jeho základ — a každý z nich ukrývá tři vlastní kmeny.
     </p>
+
 </section>
 
-<section class="section" id="kviz">
-    <h2>Najdi svůj biom</h2>
-    <p>
-        Které místo v Antirōsu odpovídá tomu, kým skutečně jsi?
+
+<!-- BIOMY -->
+
+<section id="biomy">
+
+    <div class="section-label">
+        Dvanáct světů
+    </div>
+
+    <h2>Biomy Antirōsu</h2>
+
+    <p class="section-intro">
+        Každý biom má vlastní prostředí, atmosféru,
+        život a způsob existence.
     </p>
+
+    <div class="biomes">
+
+        <div class="biome">
+            <span class="biome-number">01</span>
+            <h3>Şivrűa</h3>
+            <p>Biom prastarých džunglí.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">02</span>
+            <h3>Aqçuarïn</h3>
+            <p>Biom nekonečných vod.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">03</span>
+            <h3>Shaqaar</h3>
+            <p>Biom nekonečných písků.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">04</span>
+            <h3>Luravai</h3>
+            <p>Biom plovoucích zemí.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">05</span>
+            <h3>Muruven</h3>
+            <p>Biom tichých mokřadů.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">06</span>
+            <h3>Vhalmir</h3>
+            <p>Biom věčného ledu.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">07</span>
+            <h3>Møthaña</h3>
+            <p>Biom kamenných výšin.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">08</span>
+            <h3>Velrahn</h3>
+            <p>Biom skrytých hlubin.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">09</span>
+            <h3>Ishvara</h3>
+            <p>Biom slunečných souostroví.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">10</span>
+            <h3>Dravari</h3>
+            <p>Biom nekonečných plání.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">11</span>
+            <h3>Tzhorin</h3>
+            <p>Biom žhavé země.</p>
+        </div>
+
+        <div class="biome">
+            <span class="biome-number">12</span>
+            <h3>Veyran</h3>
+            <p>Biom větrných stepí.</p>
+        </div>
+
+    </div>
+
 </section>
 
-<section class="section" id="blog">
+
+<!-- KVÍZ -->
+
+<section id="kviz">
+
+    <div class="quiz-box">
+
+        <div class="section-label">
+            Tvoje cesta
+        </div>
+
+        <h2>Který biom je tvůj?</h2>
+
+        <p>
+            Odpověz na otázky, projdi dvanácti světy
+            a zjisti, kde v Antirōsu rezonuješ nejsilněji.
+        </p>
+
+        <a href="#" class="button primary">
+            Spustit kvíz
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- BLOG -->
+
+<section id="blog">
+
+    <div class="section-label">
+        Zápisky z Antirōsu
+    </div>
+
     <h2>Blog</h2>
-    <p>
-        Příběhy, novinky, zákulisí tvorby a objevy ze světa Antirōsu.
+
+    <p class="section-intro">
+        Novinky, příběhy, zákulisí tvorby a objevy
+        z celého světa Antirōsu.
     </p>
+
+    <div class="blog-grid">
+
+        <article class="article">
+            <small>ANTIRŌS</small>
+            <h3>Vítej v Antirōsu</h3>
+            <p>
+                První kroky do světa, který teprve začíná
+                odhalovat svá tajemství.
+            </p>
+        </article>
+
+        <article class="article">
+            <small>SVĚT</small>
+            <h3>Dvanáct biomů</h3>
+            <p>
+                Každý z nich má vlastní prostředí,
+                život a kulturu.
+            </p>
+        </article>
+
+        <article class="article">
+            <small>NYVARË</small>
+            <h3>Jazyk Antirōsu</h3>
+            <p>
+                První pohled na jazyk, který vzniká
+                uvnitř tohoto světa.
+            </p>
+        </article>
+
+    </div>
+
 </section>
 
-<section class="section" id="bestiář">
-    <h2>Bestiář</h2>
-    <p>
-        Bytosti, rostliny a další život, který obývá Antirōs.
-    </p>
+
+<!-- SHOP -->
+
+<section id="shop">
+
+    <div class="shop-box">
+
+        <div class="section-label">
+            Předměty z jiného světa
+        </div>
+
+        <h2>Antirōs Shop</h2>
+
+        <p class="section-intro" style="margin: 0 auto 30px;">
+            Jednou zde najdeš předměty, bytosti a artefakty
+            inspirované světem Antirōsu.
+        </p>
+
+        <a href="#" class="button">
+            Prozkoumat shop
+        </a>
+
+    </div>
+
 </section>
 
-<section class="section" id="shop">
-    <h2>Shop</h2>
+
+<!-- FOOTER -->
+
+<footer>
+
+    <strong>ANTIRŌS</strong>
+
     <p>
-        Předměty inspirované světem Antirōsu.
+        Svět za hranicí známého.
     </p>
-</section>
+
+</footer>
 
 </body>
 </html>
