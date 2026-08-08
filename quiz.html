@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Antirōs — Kvíz</title>
-
     <style>
         * {
             box-sizing: border-box;
@@ -18,11 +16,9 @@
             background: #05070d;
             color: #eeeef5;
             font-family: Georgia, "Times New Roman", serif;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
             padding: 30px;
         }
 
@@ -54,10 +50,8 @@
 
         .question {
             padding: 40px 25px;
-
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 24px;
-
             background: rgba(255,255,255,0.035);
             backdrop-filter: blur(12px);
         }
@@ -84,22 +78,16 @@
 
         .answer {
             width: 100%;
-
             padding: 18px 20px;
-
             border: 1px solid rgba(255,255,255,0.12);
             border-radius: 14px;
-
             background: rgba(255,255,255,0.025);
-
             color: #eeeef5;
-
             font-family: inherit;
             font-size: 1rem;
-
             cursor: pointer;
-
             transition: 0.25s;
+            text-align: left;
         }
 
         .answer:hover {
@@ -110,12 +98,9 @@
 
         .result {
             display: none;
-
             padding: 50px 30px;
-
             border: 1px solid rgba(255,255,255,0.14);
             border-radius: 25px;
-
             background:
                 radial-gradient(
                     circle at center,
@@ -140,6 +125,7 @@
         .tribe {
             font-size: 1.5rem;
             margin-bottom: 25px;
+            opacity: 0.85;
         }
 
         .result-description {
@@ -163,86 +149,159 @@
         Najdi svůj biom
     </h1>
 
-    <p class="description">
+    <p class="description" id="mainDesc">
         Odpovědi nejsou správné ani špatné.
         Každá z nich odhaluje něco o tom,
         jak vnímáš svět.
     </p>
 
     <div class="question" id="questionBox">
-
         <div class="progress" id="progress">
             OTÁZKA 1
         </div>
-
         <h2 id="question">
-            Když se ocitneš v úplně neznámém prostředí,
-            co uděláš jako první?
+            Načítání...
         </h2>
-
         <div class="answers" id="answers">
-
-            <button class="answer">
-                Pozoruji okolí a snažím se pochopit, co se děje.
-            </button>
-
-            <button class="answer">
-                Hledám někoho, s kým můžu situaci řešit společně.
-            </button>
-
-            <button class="answer">
-                Prostě vyrazím vpřed a zjistím to cestou.
-            </button>
-
-            <button class="answer">
-                Nejdřív si vytvořím plán a promyslím možné scénáře.
-            </button>
-
+            <!-- Tlačítka se generují přes JS -->
         </div>
-
     </div>
 
-
     <div class="result" id="resultBox">
-
         <div class="result-label">
             TVŮJ VÝSLEDEK
         </div>
-
         <h2 id="resultBiome">
-            Şivrűa
+            Biom
         </h2>
-
         <div class="tribe" id="resultTribe">
-            Nhaurë
+            Kmen
         </div>
-
         <p class="result-description" id="resultDescription">
             Výsledek kvízu se zobrazí zde.
         </p>
-
     </div>
 
 </div>
 
-
 <script>
+    // Definice otázek a přiřazení bodů k biomům
+    const quizData = [
+        {
+            question: "Když se ocitneš v úplně neznámém prostředí, co uděláš jako první?",
+            answers: [
+                { text: "Pozoruji okolí a snažím se pochopit, co se děje.", biome: "biome1" },
+                { text: "Hledám někoho, s kým můžu situaci řešit společně.", biome: "biome2" },
+                { text: "Prostě vyrazím vpřed a zjistím to cestou.", biome: "biome3" },
+                { text: "Nejdřív si vytvořím plán a promyslím možné scénáře.", biome: "biome4" }
+            ]
+        },
+        {
+            question: "Jaká atmosféra v tobě probouzí pocit klidu?",
+            answers: [
+                { text: "Tmavý les protkaný světélkujícími houbami a tichem.", biome: "biome1" },
+                { text: "Šumění vln, hluboké modré tůně a tajemství pod hladinou.", biome: "biome2" },
+                { text: "Divoká, nespoutaná krajina plná větru a starých kamenů.", biome: "biome3" },
+                { text: "Skrytá místa plná starých svitků, krystalů a vědění.", biome: "biome4" }
+            ]
+        },
+        {
+            question: "Co je tvou největší vnitřní silou?",
+            answers: [
+                { text: "Trpělivost a schopnost naslouchat skrytým detailům.", biome: "biome1" },
+                { text: "Empatie a propojování ostatních dohromady.", biome: "biome2" },
+                { text: "Odhodlání a odvaha jít kupředu i přes překážky.", biome: "biome3" },
+                { text: "Analytická mysl a hledání hlubších souvislostí.", biome: "biome4" }
+            ]
+        }
+    ];
 
-    const answers = document.querySelectorAll(".answer");
+    // Definice výsledných biomů
+    const biomeResults = {
+        biome1: {
+            name: "Şivrűa",
+            tribe: "Nhaurë",
+            description: "Tvoje duše patří do míst zahalených do bioluminiscenčního ticha. Vnímáš to, co ostatním zůstává skryté, a nacházíš sílu v klidu a hloubce přírody."
+        },
+        biome2: {
+            name: "Thalor",
+            tribe: "Vlny a Hlubiny",
+            description: "Jsi spojen(a) s proudem světa. Dokážeš se přizpůsobit každé vlně a tvoje přítomnost přináší ostatním stabilitu i v bouřlivých časech."
+        },
+        biome3: {
+            name: "Aethel",
+            tribe: "Nespoutaní",
+            description: "Tvoje kroky vedou tam, kam ostatní váhají vstoupit. Vede tě zvědavost, svoboda a neukojitelná touha objevovat neznámé obzory."
+        },
+        biome4: {
+            name: "Vahl",
+            tribe: "Strážci řádu",
+            description: "Vidíš strukturu tam, kde ostatní vidí chaos. Tvá mysl staví mosty z logiky a představivosti a tvoří pevné základy pro budoucnost."
+        }
+    };
 
-    answers.forEach(answer => {
+    let currentQuestionIndex = 0;
+    let scores = { biome1: 0, biome2: 0, biome3: 0, biome4: 0 };
 
-        answer.addEventListener("click", () => {
+    const progressEl = document.getElementById("progress");
+    const questionEl = document.getElementById("question");
+    const answersEl = document.getElementById("answers");
+    const questionBox = document.getElementById("questionBox");
+    const resultBox = document.getElementById("resultBox");
+    const mainDesc = document.getElementById("mainDesc");
 
-            document.getElementById("questionBox").style.display = "none";
-
-            document.getElementById("resultBox").style.display = "block";
-
+    function loadQuestion() {
+        const currentData = quizData[currentQuestionIndex];
+        progressEl.textContent = `OTÁZKA ${currentQuestionIndex + 1} Z ${quizData.length}`;
+        questionEl.textContent = currentData.question;
+        
+        answersEl.innerHTML = "";
+        
+        currentData.answers.forEach(answer => {
+            const button = document.createElement("button");
+            button.classList.add("answer");
+            button.textContent = answer.text;
+            button.addEventListener("click", () => selectAnswer(answer.biome));
+            answersEl.appendChild(button);
         });
+    }
 
-    });
+    function selectAnswer(biomeKey) {
+        scores[biomeKey]++;
+        currentQuestionIndex++;
 
+        if (currentQuestionIndex < quizData.length) {
+            loadQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        questionBox.style.display = "none";
+        mainDesc.style.display = "none";
+
+        // Najít biom s nejvyšším skóre
+        let bestBiome = "biome1";
+        let maxScore = -1;
+        for (let key in scores) {
+            if (scores[key] > maxScore) {
+                maxScore = scores[key];
+                bestBiome = key;
+            }
+        }
+
+        const result = biomeResults[bestBiome];
+        document.getElementById("resultBiome").textContent = result.name;
+        document.getElementById("resultTribe").textContent = result.tribe;
+        document.getElementById("resultDescription").textContent = result.description;
+
+        resultBox.style.display = "block";
+    }
+
+    // Spuštění kvízu
+    loadQuestion();
 </script>
 
 </body>
-  </html>
+</html>
