@@ -620,16 +620,10 @@
 
         // Střed galaxie Antirōsu
         const galaxyCenterX = width / 2;
-        const galaxycenterY = height / 2.5;
-
-        // 1. Vykreslení mlhovin pozadí 
-        nebulae.forEach(n => {
-            n.update();
-            n.draw();
-        });
+        const galaxyCenterY = height / 2.5;
 
         // Jádro galaxie
-        const coreGradient = ctx.createRadialGradient(galaxyCenterX, galaxycenterY, 0, galaxyCenterX, galaxycenterY, 350);
+        const coreGradient = ctx.createRadialGradient(galaxyCenterX, galaxyCenterY, 0, galaxyCenterX, galaxyCenterY, 300);
         coreGradient.addColorStop(0, 'rgba(130, 190, 230, 0.12)');
         coreGradient.addColorStop(0.5, 'rgba(90, 120, 180, 0.05)');
         coreGradient.addColorStop(1, 'transparent');
@@ -638,6 +632,12 @@
         ctx.arc(galaxyCenterX, galaxyCenterY, 300, 0, Math.PI * 2);
         ctx.fill();
 
+// 1. Vykreslení mlhovin pozadí 
+        nebulae.forEach(n => {
+            n.update();
+            n.draw();
+        });
+        
         // 2. Vykreslení hvězd
         stars.forEach(s => {
             s.update();
@@ -647,7 +647,7 @@
         // 3. Vykreslení obíhajících planet galaxie Antirōsu
         planets.forEach(p => {
             p.update();
-            p.draw(galaxyCenterX, galaxycenterY);
+            p.draw(galaxyCenterX, galaxyCenterY);
         });
 
         // 4. Vykreslení meteorů
