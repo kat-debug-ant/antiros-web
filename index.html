@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Antirōs — Svět za hranicí známého</title>
-
     <meta name="description" content="Antirōs — svět dvanácti biomů, třiceti šesti kmenů, bytostí a příběhů.">
-
     <style>
         * {
             margin: 0;
@@ -24,81 +21,21 @@
             color: #eeeef5;
             font-family: Georgia, "Times New Roman", serif;
             overflow-x: hidden;
+            position: relative;
         }
 
         /* =========================
-           HVĚZDY A SVĚTLO
+           VESMÍRNÉ PLÁTNO (Hvězdy, mlhoviny, meteory)
         ========================= */
 
-        .stars {
+        #space-canvas {
             position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: -2;
-
-            background-image:
-                radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px),
-                radial-gradient(circle, rgba(180,220,255,0.5) 1px, transparent 1px),
-                radial-gradient(circle, rgba(255,255,255,0.35) 1px, transparent 1px);
-
-            background-size:
-                120px 120px,
-                190px 190px,
-                270px 270px;
-
-            background-position:
-                20px 30px,
-                80px 100px,
-                140px 20px;
-
-            animation: starsPulse 5s ease-in-out infinite;
-            opacity: 0.45;
-        }
-
-        .glow {
-            position: fixed;
-            width: 550px;
-            height: 550px;
-            left: 50%;
-            top: 35%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(130,190,210,0.14),
-                    rgba(90,120,180,0.05) 35%,
-                    transparent 70%
-                );
-
-            filter: blur(25px);
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: -1;
-
-            animation: glowPulse 7s ease-in-out infinite;
-        }
-
-        @keyframes starsPulse {
-            0%, 100% {
-                opacity: 0.3
-            }
-
-            50% {
-                opacity: 0.8;
-            }
-        }
-
-        @keyframes glowPulse {
-            0%, 100% {
-                opacity: 0.55;
-                transform: translate(-50%, -50%) scale(1);
-            }
-
-            50% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.18);
-            }
         }
 
         /* =========================
@@ -110,18 +47,13 @@
             top: 0;
             left: 0;
             width: 100%;
-
             padding: 22px 6%;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
-
-            background: rgba(5,7,13,0.68);
+            background: rgba(5,7,13,0.75);
             backdrop-filter: blur(14px);
-
             border-bottom: 1px solid rgba(255,255,255,0.08);
-
             z-index: 1000;
         }
 
@@ -156,20 +88,17 @@
 
         .hero {
             min-height: 100vh;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
             text-align: center;
-
             padding: 120px 25px 80px;
-
             position: relative;
         }
 
         .hero-content {
             max-width: 900px;
+            text-shadow: 0 0 20px rgba(5,7,13,0.9);
         }
 
         .eyebrow {
@@ -185,32 +114,17 @@
             font-weight: normal;
             letter-spacing: 0.12em;
             line-height: 0.9;
-
             text-shadow:
                 0 0 10px rgba(180,220,255,0.18),
                 0 0 35px rgba(130,190,210,0.18),
                 0 0 80px rgba(100,150,210,0.12);
-
-            animation: titleGlow 5s ease-in-out infinite;
-        }
-
-        @keyframes titleGlow {
-            0%, 100% {
-                opacity: 0.9;
-            }
-
-            50% {
-                opacity: 1;
-            }
         }
 
         .hero-description {
             max-width: 650px;
             margin: 38px auto;
-
             font-size: 1.15rem;
             line-height: 1.9;
-
             color: #c5c3cf;
         }
 
@@ -223,18 +137,14 @@
 
         .button {
             display: inline-block;
-
             padding: 14px 26px;
-
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 50px;
-
             color: #ffffff;
             text-decoration: none;
-
             transition: 0.3s;
-
             backdrop-filter: blur(8px);
+            background: rgba(5,7,13,0.4);
         }
 
         .button:hover {
@@ -257,6 +167,8 @@
             max-width: 1200px;
             margin: auto;
             padding: 110px 6%;
+            position: relative;
+            z-index: 2;
         }
 
         .section-label {
@@ -292,55 +204,34 @@
 
         .biome {
             min-height: 190px;
-
             padding: 28px;
-
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 18px;
-
-            background: rgba(255,255,255,0.035);
-
+            background: rgba(5,7,13,0.65);
             backdrop-filter: blur(10px);
-
             transition: 0.35s;
-
             position: relative;
             overflow: hidden;
         }
 
         .biome::before {
             content: "";
-
             position: absolute;
             width: 120px;
             height: 120px;
-
             right: -50px;
             bottom: -50px;
-
             border-radius: 50%;
-
             background: rgba(140,190,210,0.08);
-
             filter: blur(20px);
-
             transition: 0.4s;
         }
 
         .biome:hover {
             transform: translateY(-7px);
-
             border-color: rgba(180,220,255,0.3);
-
-            background: rgba(255,255,255,0.065);
-
-            box-shadow:
-                0 15px 40px rgba(0,0,0,0.25),
-                0 0 25px rgba(130,190,210,0.05);
-        }
-
-        .biome:hover::before {
-            transform: scale(2);
+            background: rgba(15,20,35,0.8);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 25px rgba(130,190,210,0.05);
         }
 
         .biome-number {
@@ -351,7 +242,6 @@
 
         .biome h3 {
             margin: 18px 0 8px;
-
             font-size: 1.4rem;
             font-weight: normal;
         }
@@ -368,28 +258,17 @@
 
         .quiz-box {
             padding: 70px 40px;
-
             border: 1px solid rgba(255,255,255,0.12);
             border-radius: 25px;
-
-            background:
-                radial-gradient(
-                    circle at center,
-                    rgba(120,160,190,0.12),
-                    transparent 65%
-                ),
-                rgba(255,255,255,0.025);
-
+            background: rgba(5,7,13,0.7);
+            backdrop-filter: blur(10px);
             text-align: center;
         }
 
         .quiz-box p {
             max-width: 600px;
-
             margin: 0 auto 30px;
-
             color: #aaa8b5;
-
             line-height: 1.8;
         }
 
@@ -399,27 +278,21 @@
 
         .blog-grid {
             display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(260px, 1fr));
-
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
         }
 
         .article {
             padding: 30px;
-
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 18px;
-
-            background: rgba(255,255,255,0.03);
-
+            background: rgba(5,7,13,0.65);
+            backdrop-filter: blur(10px);
             transition: 0.3s;
         }
 
         .article:hover {
             transform: translateY(-5px);
-
             border-color: rgba(255,255,255,0.22);
         }
 
@@ -429,7 +302,6 @@
 
         .article h3 {
             margin: 15px 0;
-
             font-size: 1.35rem;
             font-weight: normal;
         }
@@ -445,14 +317,11 @@
 
         .shop-box {
             text-align: center;
-
             padding: 70px 30px;
-
             border-radius: 25px;
-
             border: 1px solid rgba(255,255,255,0.1);
-
-            background: rgba(255,255,255,0.025);
+            background: rgba(5,7,13,0.7);
+            backdrop-filter: blur(10px);
         }
 
         /* =========================
@@ -461,483 +330,321 @@
 
         footer {
             border-top: 1px solid rgba(255,255,255,0.08);
-
             padding: 50px 6%;
-
             text-align: center;
-
             color: #777582;
+            position: relative;
+            z-index: 2;
+            background: rgba(5,7,13,0.9);
         }
 
         footer strong {
             display: block;
-
             color: #dddbe5;
-
             letter-spacing: 0.25em;
-
             margin-bottom: 12px;
         }
 
-        /* =========================
-           MOBIL / TABLET
-        ========================= */
-
         @media (max-width: 700px) {
-
-            nav {
-                padding: 18px 20px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            section {
-                padding: 80px 20px;
-            }
-
-            .hero h1 {
-                font-size: 4rem;
-            }
-
-            .hero-description {
-                font-size: 1rem;
-            }
-
-            .quiz-box {
-                padding: 45px 20px;
-            }
+            nav { padding: 18px 20px; }
+            .nav-links { display: none; }
+            section { padding: 80px 20px; }
+            .hero h1 { font-size: 4rem; }
+            .hero-description { font-size: 1rem; }
+            .quiz-box { padding: 45px 20px; }
         }
     </style>
 </head>
 
 <body>
 
-<div class="stars"></div>
-<div class="glow"></div>
-
+<!-- Vesmírné plátno pozadí -->
+<canvas id="space-canvas"></canvas>
 
 <!-- =========================
      NAVIGACE
 ========================= -->
-
 <nav>
-
-    <a href="#" class="nav-logo">
-        ANTIRŌS
-    </a>
-
+    <a href="#" class="nav-logo">ANTIRŌS</a>
     <ul class="nav-links">
-
-        <li>
-            <a href="#svet">Svět</a>
-        </li>
-
-        <li>
-            <a href="#biomy">Biomy</a>
-        </li>
-
-        <li>
-            <a href="#kviz">Kvíz</a>
-        </li>
-
-        <li>
-            <a href="#blog">Blog</a>
-        </li>
-
-        <li>
-            <a href="#shop">Shop</a>
-        </li>
-
+        <li><a href="#svet">Svět</a></li>
+        <li><a href="#biomy">Biomy</a></li>
+        <li><a href="#kviz">Kvíz</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#shop">Shop</a></li>
     </ul>
-
 </nav>
-
 
 <!-- =========================
      HERO
 ========================= -->
-
 <header class="hero">
-
     <div class="hero-content">
-
-        <div class="eyebrow">
-            Svět za hranicí známého
-        </div>
-
-        <h1>
-            ANTIRŌS
-        </h1>
-
+        <div class="eyebrow">Svět za hranicí známého</div>
+        <h1>ANTIRŌS</h1>
         <p class="hero-description">
             Svět, kde každý kout ukrývá vlastní život,
             každý biom má svou duši a každý může najít
             místo, které mu skutečně náleží.
         </p>
-
         <div class="hero-buttons">
-
-            <a href="#svet" class="button primary">
-                Prozkoumat Antirōs
-            </a>
-
-            <a href="#kviz" class="button">
-                Najít svůj biom
-            </a>
-
+            <a href="#svet" class="button primary">Prozkoumat Antirōs</a>
+            <a href="#kviz" class="button">Najít svůj biom</a>
         </div>
-
     </div>
-
 </header>
-
 
 <!-- =========================
      SVĚT
 ========================= -->
-
 <section id="svet">
-
-    <div class="section-label">
-        Začátek cesty
-    </div>
-
-    <h2>
-        Svět Antirōsu
-    </h2>
-
+    <div class="section-label">Začátek cesty</div>
+    <h2>Svět Antirōsu</h2>
     <p class="section-intro">
         Antirōs je živý svět tvořený rozdílnými krajinami,
         kulturami, bytostmi a příběhy.
         Dvanáct biomů tvoří jeho základ
         a každý z nich ukrývá tři vlastní kmeny.
     </p>
-
 </section>
-
 
 <!-- =========================
      BIOMY
 ========================= -->
-
 <section id="biomy">
-
-    <div class="section-label">
-        Dvanáct světů
-    </div>
-
-    <h2>
-        Biomy Antirōsu
-    </h2>
-
-    <p class="section-intro">
-        Každý biom má vlastní prostředí,
-        atmosféru, život a způsob existence.
-    </p>
-
+    <div class="section-label">Dvanáct světů</div>
+    <h2>Biomy Antirōsu</h2>
+    <p class="section-intro">Každý biom má vlastní prostředí, atmosféru, život a způsob existence.</p>
 
     <div class="biomes">
-
-
-        <div class="biome">
-            <span class="biome-number">01</span>
-
-            <h3>Şivrűa</h3>
-
-            <p>
-                Biom prastarých džunglí.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">02</span>
-
-            <h3>Aqçuarïn</h3>
-
-            <p>
-                Biom nekonečných vod.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">03</span>
-
-            <h3>Shaqaar</h3>
-
-            <p>
-                Biom nekonečných písků.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">04</span>
-
-            <h3>Luravai</h3>
-
-            <p>
-                Biom plovoucích zemí.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">05</span>
-
-            <h3>Muruven</h3>
-
-            <p>
-                Biom tichých mokřadů.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">06</span>
-
-            <h3>Vhalmir</h3>
-
-            <p>
-                Biom věčného ledu.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">07</span>
-
-            <h3>Møthaña</h3>
-
-            <p>
-                Biom kamenných výšin.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">08</span>
-
-            <h3>Velrahn</h3>
-
-            <p>
-                Biom skrytých hlubin.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">09</span>
-
-            <h3>Ishvara</h3>
-
-            <p>
-                Biom slunečných souostroví.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">10</span>
-
-            <h3>Dravari</h3>
-
-            <p>
-                Biom nekonečných plání.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">11</span>
-
-            <h3>Tzhorin</h3>
-
-            <p>
-                Biom žhavé země.
-            </p>
-        </div>
-
-
-        <div class="biome">
-            <span class="biome-number">12</span>
-
-            <h3>Veyran</h3>
-
-            <p>
-                Biom větrných stepí.
-            </p>
-        </div>
-
-
+        <div class="biome"><span class="biome-number">01</span><h3>Şivrűa</h3><p>Biom prastarých džunglí.</p></div>
+        <div class="biome"><span class="biome-number">02</span><h3>Aqçuarïn</h3><p>Biom nekonečných vod.</p></div>
+        <div class="biome"><span class="biome-number">03</span><h3>Shaqaar</h3><p>Biom nekonečných písků.</p></div>
+        <div class="biome"><span class="biome-number">04</span><h3>Luravai</h3><p>Biom plovoucích zemí.</p></div>
+        <div class="biome"><span class="biome-number">05</span><h3>Muruven</h3><p>Biom tichých mokřadů.</p></div>
+        <div class="biome"><span class="biome-number">06</span><h3>Vhalmir</h3><p>Biom věčného ledu.</p></div>
+        <div class="biome"><span class="biome-number">07</span><h3>Møthaña</h3><p>Biom kamenných výšin.</p></div>
+        <div class="biome"><span class="biome-number">08</span><h3>Velrahn</h3><p>Biom skrytých hlubin.</p></div>
+        <div class="biome"><span class="biome-number">09</span><h3>Ishvara</h3><p>Biom slunečných souostroví.</p></div>
+        <div class="biome"><span class="biome-number">10</span><h3>Dravari</h3><p>Biom nekonečných plání.</p></div>
+        <div class="biome"><span class="biome-number">11</span><h3>Tzhorin</h3><p>Biom žhavé země.</p></div>
+        <div class="biome"><span class="biome-number">12</span><h3>Veyran</h3><p>Biom větrných stepí.</p></div>
     </div>
-
 </section>
-
 
 <!-- =========================
      KVÍZ
 ========================= -->
-
 <section id="kviz">
-
     <div class="quiz-box">
-
-        <div class="section-label">
-            Tvoje cesta
-        </div>
-
-        <h2>
-            Který biom je tvůj?
-        </h2>
-
-        <p>
-            Odpověz na otázky, projdi dvanácti světy
-            a zjisti, kde v Antirōsu rezonuješ nejsilněji.
-        </p>
-
-        <a href="#" class="button primary">
-            Spustit kvíz
-        </a>
-
+        <div class="section-label">Tvoje cesta</div>
+        <h2>Který biom je tvůj?</h2>
+        <p>Odpověz na otázky, projdi dvanácti světy a zjisti, kde v Antirōsu rezonuješ nejsilněji.</p>
+        <a href="#" class="button primary">Spustit kvíz</a>
     </div>
-
 </section>
-
 
 <!-- =========================
      BLOG
 ========================= -->
-
 <section id="blog">
-
-    <div class="section-label">
-        Zápisky z Antirōsu
-    </div>
-
-    <h2>
-        Blog
-    </h2>
-
-    <p class="section-intro">
-        Novinky, příběhy, zákulisí tvorby
-        a objevy z celého světa Antirōsu.
-    </p>
-
+    <div class="section-label">Zápisky z Antirōsu</div>
+    <h2>Blog</h2>
+    <p class="section-intro">Novinky, příběhy, zákulisí tvorby a objevy z celého světa Antirōsu.</p>
 
     <div class="blog-grid">
-
-
-        <article class="article">
-
-            <small>
-                ANTIRŌS
-            </small>
-
-            <h3>
-                Vítej v Antirōsu
-            </h3>
-
-            <p>
-                První kroky do světa,
-                který teprve začíná odhalovat
-                svá tajemství.
-            </p>
-
-        </article>
-
-
-        <article class="article">
-
-            <small>
-                SVĚT
-            </small>
-
-            <h3>
-                Dvanáct biomů
-            </h3>
-
-            <p>
-                Každý z nich má vlastní prostředí,
-                život a kulturu.
-            </p>
-
-        </article>
-
-
-        <article class="article">
-
-            <small>
-                NYVARË
-            </small>
-
-            <h3>
-                Jazyk Antirōsu
-            </h3>
-
-            <p>
-                První pohled na jazyk,
-                který vzniká uvnitř tohoto světa.
-            </p>
-
-        </article>
-
-
+        <article class="article"><small>ANTIRŌS</small><h3>Vítej v Antirōsu</h3><p>První kroky do světa, který teprve začíná odhalovat svá tajemství.</p></article>
+        <article class="article"><small>SVĚT</small><h3>Dvanáct biomů</h3><p>Každý z nich má vlastní prostředí, život a kulturu.</p></article>
+        <article class="article"><small>NYVARË</small><h3>Jazyk Antirōsu</h3><p>První pohled na jazyk, který vzniká uvnitř tohoto světa.</p></article>
     </div>
-
 </section>
-
 
 <!-- =========================
      SHOP
 ========================= -->
-
 <section id="shop">
-
     <div class="shop-box">
-
-        <div class="section-label">
-            Předměty z jiného světa
-        </div>
-
-        <h2>
-            Antirōs Shop
-        </h2>
-
-        <p class="section-intro" style="margin: 0 auto 30px;">
-            Jednou zde najdeš předměty,
-            bytosti a artefakty inspirované
-            světem Antirōsu.
-        </p>
-
-        <a href="#" class="button">
-            Prozkoumat shop
-        </a>
-
+        <div class="section-label">Předměty z jiného světa</div>
+        <h2>Antirōs Shop</h2>
+        <p class="section-intro" style="margin: 0 auto 30px;">Jednou zde najdeš předměty, bytosti a artefakty inspirované světem Antirōsu.</p>
+        <a href="#" class="button">Prozkoumat shop</a>
     </div>
-
 </section>
-
 
 <!-- =========================
      FOOTER
 ========================= -->
-
 <footer>
-
-    <strong>
-        ANTIRŌS
-    </strong>
-
-    <p>
-        Svět za hranicí známého.
-    </p>
-
+    <strong>ANTIRŌS</strong>
+    <p>Svět za hranicí známého.</p>
 </footer>
 
+<!-- =========================
+     JASAVÝ VESMÍRNÝ SKRIPT (Mlhoviny, Hvězdy, Meteory)
+========================= -->
+<script>
+    const canvas = document.getElementById('space-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    let stars = [];
+    let nebulae = [];
+    let shootingStars = [];
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Třída pro mlhoviny (jemné barevné galaktické obláčky)
+    class Nebula {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.radius = Math.random() * 300 + 200;
+            // Barvy laděné do tónů Antirōsu (modravá, tyrkysová, fialková)
+            const colors = [
+                'rgba(80, 140, 200, 0.03)',
+                'rgba(120, 90, 180, 0.025)',
+                'rgba(50, 180, 210, 0.02)',
+                'rgba(100, 210, 230, 0.015)'
+            ];
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.vx = (Math.random() - 0.5) * 0.05;
+            this.vy = (Math.random() - 0.5) * 0.05;
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < -this.radius) this.x = width + this.radius;
+            if (this.x > width + this.radius) this.x = -this.radius;
+            if (this.y < -this.radius) this.y = height + this.radius;
+            if (this.y > height + this.radius) this.y = -this.radius;
+        }
+
+        draw() {
+            const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+            gradient.addColorStop(0, this.color);
+            gradient.addColorStop(1, 'transparent');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    // Třída pro hvězdy (náhodná velikost a různě rychlé pulzování)
+    class Star {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.size = Math.random() * 1.6;
+            this.pulseSpeed = Math.random() * 0.02 + 0.005;
+            this.pulsePhase = Math.random() * Math.PI * 2;
+            this.baseAlpha = Math.random() * 0.5 + 0.2;
+        }
+
+        update() {
+            this.pulsePhase += this.pulseSpeed;
+            this.alpha = this.baseAlpha + Math.sin(this.pulsePhase) * 0.3;
+            if (this.alpha < 0.1) this.alpha = 0.1;
+            if (this.alpha > 1) this.alpha = 1;
+        }
+
+        draw() {
+            ctx.fillStyle = `rgba(200, 225, 255, ${this.alpha})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    // Třída pro občasné meteory
+    class ShootingStar {
+        constructor() {
+            this.reset();
+        }
+
+        reset() {
+            this.x = Math.random() * width;
+            this.y = 0;
+            this.len = Math.random() * 80 + 40;
+            this.speed = Math.random() * 8 + 6;
+            this.angle = Math.PI / 4; // padají šikmo
+            this.opacity = 1;
+            this.active = false;
+            // Náhodné spuštění meteoru s prodlevou
+            this.delay = Math.floor(Math.random() * 300) + 100;
+        }
+
+        update() {
+            if (this.delay > 0) {
+                this.delay--;
+                return;
+            }
+            this.active = true;
+            this.x += Math.cos(this.angle) * this.speed;
+            this.y += Math.sin(this.angle) * this.speed;
+            this.opacity -= 0.015;
+
+            if (this.opacity <= 0 || this.y > height || this.x > width) {
+                this.reset();
+            }
+        }
+
+        draw() {
+            if (!this.active || this.delay > 0) return;
+            ctx.strokeStyle = `rgba(180, 220, 255, ${this.opacity})`;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.x - Math.cos(this.angle) * this.len, this.y - Math.sin(this.angle) * this.len);
+            ctx.stroke();
+        }
+    }
+
+    // Inicializace objektů
+    function initSpace() {
+        stars = [];
+        nebulae = [];
+        shootingStars = [];
+
+        for (let i = 0; i < 180; i++) stars.push(new Star());
+        for (let i = 0; i < 5; i++) nebulae.push(new Nebula());
+        for (let i = 0; i < 3; i++) shootingStars.glob = shootingStars.push(new ShootingStar());
+    }
+
+    // Hlavní animační smyčka
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Vykreslení mlhovin (pozadí galaxie)
+        nebulae.forEach(n => {
+            n.update();
+            n.draw();
+        });
+
+        // Vykreslení hvězd
+        stars.forEach(s => {
+            s.update();
+            s.draw();
+        });
+
+        // Vykreslení meteorů
+        shootingStars.forEach(ss => {
+            ss.update();
+            ss.draw();
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    initSpace();
+    animate();
+</script>
 
 </body>
 </html>
