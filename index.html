@@ -51,7 +51,7 @@
                 80px 100px,
                 140px 20px;
 
-            animation: starsMove 40s linear infinite;
+            animation: starsPulse 5s ease-in-out infinite;
             opacity: 0.45;
         }
 
@@ -79,13 +79,13 @@
             animation: glowPulse 7s ease-in-out infinite;
         }
 
-        @keyframes starsMove {
-            from {
-                transform: translateY(0);
+        @keyframes starsPulse {
+            0%, 100% {
+                opacity: 0.3
             }
 
-            to {
-                transform: translateY(-120px);
+            50% {
+                opacity: 0.8;
             }
         }
 
