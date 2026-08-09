@@ -20,32 +20,53 @@
         </nav>
     </header>
 
-    <!-- Hlavní obsah stránky -->
+        <!-- Hlavní obsah stránky -->
     <main>
         <h1>12 Biomů Antirōsu</h1>
         <p>Prozkoumej dvanáct jedinečných prostředí, kde každý kout ukrývá vlastní život a kulturu.</p>
 
+        <!-- Mřížka karet biomů -->
         <div class="biome-grid">
             
-            <div class="biome-card">
+            <div class="biome-card" onclick="openModal('Şivrűa', 'Biom prastarých džunglí, kde stromy sahají až do horních vrstev atmosféry.')">
                 <span class="biome-number">01</span>
                 <h2>Şivrűa</h2>
                 <p>Biom prastarých džunglí.</p>
             </div>
 
-            <div class="biome-card">
-                <span class="biome-number">02</span>
+            <div class="biome-card" onclick="openModal('Luravai', 'Biom plovoucích zemí vznášejících se v gravitačních proudech.')">
+                <span class="biome-number">04</span>
                 <h2>Luravai</h2>
                 <p>Biom plovoucích zemí.</p>
             </div>
 
-            <div class="biome-card">
-                <span class="biome-number">03</span>
+            <div class="biome-card" onclick="openModal('Vhalmir', 'Biom věčného ledu a mrazivých plání, kde se zjevují polární záře.')">
+                <span class="biome-number">06</span>
                 <h2>Vhalmir</h2>
                 <p>Biom věčného ledu.</p>
             </div>
 
-            <!-- Tady můžeš přidávat další biomy až do čísla 12 -->
-
         </div>
     </main>
+
+    <!-- Skryté vyskakovací okno (modál), které se aktivuje po kliknutí -->
+    <div id="biomeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Název biomu</h2>
+            <p id="modalDescription">Podrobný popis biomu se zobrazí zde.</p>
+        </div>
+    </div>
+
+    <!-- JavaScript pro otevírání a zavírání okénka -->
+    <script>
+        function openModal(title, description) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('biomeModal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('biomeModal').style.display = 'none';
+        }
+    </script>
+
