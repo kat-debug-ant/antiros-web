@@ -3,291 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antirōs – Svět za hranicí známého</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Biomy Antirōsu</title>
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f0f0f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #a0aab5;
+            margin-bottom: 40px;
+        }
+        .biome-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .biome-card {
+            background: linear-gradient(135deg, #161b2c, #1f263d);
+            border: 1px solid #2a3450;
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .biome-card:hover {
+            transform: translateY(-5px);
+            border-color: #4a5d8c;
+        }
+        .biome-number {
+            font-size: 0.9rem;
+            color: #7a8fa6;
+        }
+        .biome-card h2 {
+            margin: 10px 0 5px 0;
+            color: #ffffff;
+        }
+        .biome-card p {
+            color: #b0bcd0;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* Vyskakovací okno (Modal) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 7, 12, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-box {
+            background: #131929;
+            border: 1px solid #324168;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-content-scroll {
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-top: 10px;
+        }
+        .modal-box h2 {
+            margin-top: 0;
+            color: #ffffff;
+            font-size: 1.8rem;
+        }
+        .modal-box p, .modal-box div {
+            color: #c5d0e0;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        /* Křížek na zavření */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: none;
+            border: none;
+            color: #a0aab5;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-btn:hover {
+            color: #ffffff;
+        }
+        /* Šipky na přepínání */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 34, 56, 0.9);
+            border: 1px solid #3a4b7c;
+            color: #ffffff;
+            font-size: 1.5rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 1010;
+        }
+        .nav-btn:hover {
+            background: #324478;
+        }
+        .prev-btn { left: -60px; }
+        .next-btn { right: -60px; }
+
+        @media (max-width: 850px) {
+            .prev-btn { left: 10px; }
+            .next-btn { right: 10px; }
+            .modal-box { width: 95%; padding: 20px; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Horní navigační lišta -->
-    <header>
-        <div class="logo">ANTIRŌS</div>
-        <nav>
-            <a href="index.html">Svět</a>
-            <a href="biomy.html">Biomy</a>
-            <a href="kviz.html">Kvíz</a>
-            <a href="blog.html">Blog</a>
-            <a href="shop.html">Shop</a>
-        </nav>
-    </header>
+    <h1>Biomy Antirōsu</h1>
+    <p class="subtitle">Každý biom má vlastní prostředí, atmosféru, živý ekosystém a kulturu.</p>
 
-        <!-- Hlavní obsah stránky -->
-    <main>
-        <h1>12 Biomů Antirōsu</h1>
-        <p>Prozkoumej dvanáct jedinečných prostředí, kde každý kout ukrývá vlastní život a kulturu.</p>
+    <!-- Mřížka karet -->
+    <div class="biome-grid" id="biomeGrid">
+        <!-- Karty se vygenerují automaticky přes JavaScript, aby fungovaly šipky -->
+    </div>
 
-        <!-- Mřížka karet biomů -->
-        <div class="biome-grid">
+    <!-- Vyskakovací okno -->
+    <div class="modal-overlay" id="biomeModal" onclick="maybeClose(event)">
+        <div class="modal-box" id="modalBox">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <button class="nav-btn prev-btn" onclick="changeBiome(-1)">&#10094;</button>
+            <button class="nav-btn next-btn" onclick="changeBiome(1)">&#10095;</button>
             
-            <div class="biome-card" onclick="openModal('Şivrűa
-                    
-Biom prastarých džunglí
-                    
-Şivrűa není obyčejný tropický prales. Je to hustý, vlhký a téměř nepřetržitě živý ekosystém,
-kde rostliny, voda, světlo a živočichové vytvářejí jeden propojený celek. Džungle je místy tak
-stará, že některé její části Ayru považují za starší než vlastní paměť jejich národa.
-                    
- Základní charakter
-Typ: tropická pralesní džungle
-Prostředí: husté pralesy, obrovské kořenové systémy, vodní toky, skrytá údolí a zarostlé
-skalní oblasti
-Vlhkost: velmi vysoká
-Teplota: teplá až horká
-Srážky: časté, často prudké
-Světlo: koruny stromů vytvářejí několik vrstev stínu
-Dominantní prvek: život
-Hlavní pocit: tajemství, pohyb a neustálé probouzení
-                    
- Krajina
-Şivrűa je tvořena několika přírodními vrstvami.
-Nejvýše se nacházejí obří koruny prastarých stromů, které vytvářejí téměř vlastní svět. Pod
-nimi se rozprostírá zelené přítmí plné lián, kapradin a nízkých rostlin.
-U země je džungle mnohem temnější. Kořeny vytvářejí přirozené tunely a mosty, některé
-stromy jsou tak mohutné, že jejich kořenový systém vytváří malé dutiny, ve kterých mohou
-žít celé skupiny Ayru.
-Džunglí protékají stovky potoků a menších řek. V některých místech se voda hromadí v
-hlubokých přírodních jezírkách.
-                    
- Podnebí
-Şivrűa má teplé a velmi vlhké klima.
-Déšť přichází často a někdy bez varování. Krátké období prudkého deště může během
-chvíle proměnit malé potoky v divoké proudy.
-Po dešti džungle téměř září. Kapky vody zůstávají na listech a zachytávají světlo, zatímco
-mlha se drží nízko mezi kořeny.
-                    
- Atmosféra
-Şivrűa působí, jako by nikdy úplně nespala.
-Ve dne je plná zvuků:
-pohyb listů,
-vzdálené volání tvorů,
-kapky vody,
-praskání větví,
-bzučení drobných živočichů.
-V noci se zvuky neztrácejí. Pouze se mění.
-Některé rostliny začínají po setmění vydávat jemné světlo a mezi stromy se objevují drobné
-zářivé organismy.
-                    
- Typické barvy
-Dominantními barvami Şivrűy jsou:
-hluboká zelená
-smaragdová
-tyrkysová
-tmavě modrozelená
-hnědá černá
-zlatavá
-jemná bioluminiscenční modř
-Barvy se však mění podle vrstvy džungle.
-                    
- Flóra
-Şivrűa má jednu z nejrozmanitějších rostlinných říší Antirōsu.
-                    
-Aelvára
-Obrovské stromy s hladkou světlou kůrou. Jejich koruny rostou vysoko nad ostatní vegetací.
-                    
-Veylith
-Dlouhé liány, které reagují na dotek jemným stažením. Ayru je využívají jako přirozené
-provazy a spojovací materiál.
-                    
-Shaerun
-Širokolisté rostliny rostoucí kolem vody. Jejich listy dokážou zachytit a zadržet velké
-množství vody.
-                    
-Miraqel
-Noční rostliny s jemně světélkujícími květy.
-                    
-Thyra
-Nízké rostliny s hustými kořeny, které stabilizují půdu během silných dešťů.
-                    
- Fauna
-Şivrűa je domovem mnoha Ayru tvorů.
-Mezi nejvýraznější patří:
-                    
-Raukin
-Šelmovitý tvor žijící převážně v korunách stromů. Je rychlý a velmi obratný.
-                    
-Eshari
-Malí létající tvorové s průsvitnými křídly. Aktivní jsou hlavně za soumraku.
-                    
-Varkûn
-Velcí býložravci pohybující se v hlubších částech džungle.
-                    
-Nayrith
-Vodní tvorové obývající hluboká jezírka.
-                    
-Qelai
-Drobná zvířata žijící v kořenových dutinách.
-                    
- Přírodní jevy
-Şivrűa má několik charakteristických přírodních jevů.
-Dech džungle
-Období velmi husté mlhy, která se během ranních hodin drží mezi stromy.
-Světélkující noc
-V určitých obdobích současně rozkvétá velké množství nočních rostlin.
-Zelený déšť
-Déšť, při kterém se do vody uvolní drobné částice pylu z některých stromů. Celá krajina pak
-na několik hodin získá zelenavý nádech.
-                    
- Přírodní zdroje
-Şivrűa poskytuje:
-léčivé rostliny
-jedlé plody
-semena
-přírodní vlákna
-dřevo
-pryskyřice sladké mízy
-minerály z říčních sedimentů
-vzácné bioluminiscenční rostliny
-Ayru však využívají přírodu tak, aby nevyčerpávali její zdroje.
-                    
- Nebezpečí
-Şivrűa není bezpečné místo.
-Nebezpečí představují především:
-jedovaté rostliny
-skryté vodní proudy
-sesuvy půdy
-predátoři
-hluboké kořenové dutiny
-prudké bouře
-hustá mlha
-rostliny reagující na pohyb
-Největším nebezpečím ale může být samotná nepřehlednost džungle. Je velmi snadné
-ztratit orientaci.
-                    
- Život Ayru
-Ayru v Şivrűe žijí v úzkém kontaktu s okolním prostředím.
-Stavby se většinou přizpůsobují přírodě místo toho, aby ji nahrazovaly.
-Obydlí mohou být umístěna:
-mezi kořeny,
-na silných větvích,
-v přirozených dutinách,
-u vodních toků,
-na vyvýšených přírodních plošinách.
-                    
- Architektura
-Typická architektura Şivrűy využívá:
-dřevo + listy + vlákna + kořeny + přírodní kámen.
-Stavby mají organické tvary. Ostré geometrické linie jsou vzácné.
-Mnohé konstrukce vypadají, jako by vyrostly společně se stromy.
-                    
- Způsob života
-Ayru Şivrűy jsou obecně velmi pozorní k okolnímu prostředí.
-Důležitou součástí života je:
-znalost rostlin,
-znalost stop tvorů,
-práce s vodou,
-sběr,
-lov,
-pěstování užitkových rostlin,
-péče o okolní prostředí.
-Děti se neučí džungli pouze z vyprávění. Učí se ji pozorováním.
-                    
- Typická potrava
-Mezi typické potraviny patří:
-sladké tropické plody
-vodní rostliny
-semena
-kořeny jedlé houby
-ryby a vodní tvorové
-maso některých menších živočichů
-různé mízy a nektary
-                    
- Symbolika Şivrűy
-Şivrűa představuje:
-život, růst, propojení, přizpůsobení a obnovu.
-Její základní myšlenkou je, že nic v přírodě neexistuje úplně samo.
-                    
- TŘI KMENY ŞIVRŰY
-A teď to nejdůležitější — tři kmeny budou mít každý úplně jiný způsob života, přestože
-všechny pocházejí ze stejného biomu.
-                    
-I. Vaelqir
-Strážci korun
-Vaelqir žijí především v horních vrstvách džungle.
-Území: koruny nejvyšších stromů
-Specializace: pohyb ve výškách, pozorování, průzkum
-Povaha: klidní, pozorní, trpěliví
-Obydlí: zavěšené a propojené přírodní plošiny
-Tradice: předávání znalostí o jednotlivých stromech
-Symbol: otevřený list
-Typická barva: smaragdová
-Jejich svět končí tam, kde pro většinu ostatních Ayru začíná nebe.
-                    
-II. Nhaurë
-Lidé kořenů
-Nhaurë žijí u země, mezi mohutnými kořeny a v hlubších částech džungle.
-Území: kořenové oblasti a spodní patro pralesa
-Specializace: léčivé rostliny, houby, kořeny
-Povaha: pozorní, praktičtí, vytrvalí
-Obydlí: přirozené dutiny a kořenové stavby
-Tradice: znalost rostlin a jejich vlastností
-Symbol: propletené kořeny
-Typická barva: tmavě modrozelená
-Nhaurë znají spodní část Şivrűy lépe než kterýkoli jiný kmen.
-                    
-III. Itzäro
-Strážci vod
-Qyraen jsou spojeni především s řekami, jezery a mokrými oblastmi džungle.
-Území: řeky, jezírka a vodní údolí
-Specializace: voda, rybolov, vodní tvorové
-Povaha: pohybliví, zvědaví, přizpůsobiví
-Obydlí: přírodní plošiny podél vody
-Tradice: pozorování vodních cyklů
-Symbol: spirála vody
-Typická barva: tyrkysová
-Qyraen dokážou podle změny vody poznat blížící se déšť, povodeň nebo změnu počasí.
-                    
- Jedinečnost Şivrűy
-Şivrűa je jediný biom Antirōsu, kde se život nachází v tak výrazných vertikálních vrstvách.
-Je to biom, který není možné pochopit jediným pohledem.
-Vaelqir znají nebe nad korunami. Nhaurë znají svět pod kořeny.
-Qyraen znají svět pod hladinou.
-A dohromady tak tvoří tři různé pohledy na jeden živý organismus — Şivrűu.')">
-                <span class="biome-number">01</span>
-                <h2>Şivrűa</h2>
-                <p>Biom prastarých džunglí.</p>
-            </div>
-
-            <div class="biome-card" onclick="openModal('Luravai', 'Biom plovoucích zemí vznášejících se v gravitačních proudech.')">
-                <span class="biome-number">04</span>
-                <h2>Luravai</h2>
-                <p>Biom plovoucích zemí.</p>
-            </div>
-
-            <div class="biome-card" onclick="openModal('Vhalmir', 'Biom věčného ledu a mrazivých plání, kde se zjevují polární záře.')">
-                <span class="biome-number">06</span>
-                <h2>Vhalmir</h2>
-                <p>Biom věčného ledu.</p>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- Skryté vyskakovací okno (modál), které se aktivuje po kliknutí -->
-    <div id="biomeModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
             <h2 id="modalTitle">Název biomu</h2>
-            <p id="modalDescription">Podrobný popis biomu se zobrazí zde.</p>
+            <div class="modal-content-scroll">
+                <p id="modalDescription">Detailní popis biomu...</p>
+            </div>
         </div>
     </div>
 
-    <!-- JavaScript pro otevírání a zavírání okénka -->
     <script>
-        function openModal(title, description) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalDescription').innerText = description;
+        // Data pro všechny biomy (zde můžeš jednoduše přidávat další nebo upravovat texty)
+        const biomyData = [
+            {
+                number: "01",
+                name: "Şivrűa",
+                short: "Biom prastarých džunglí.",
+                desc: `Şivrűa není obyčejný tropický prales. Je to hustý, vlhký a téměř nepřetržitě živý ekosystém, kde rostliny, voda, světlo a živočichové vytvářejí jeden propojený celek. Džungle je místy tak stará, že některé její části Ayru považují za starší než vlastní paměť jejich národa.<br><br>
+                🌿 Základní charakter<br>
+                Typ: tropická pralesní džungle<br>
+                Prostředí: husté pralesy, obrovské kořenové systémy, vodní toky, skrytá údolí a zarostlé skalní oblasti<br>
+                Vlhkost: velmi vysoká | Teplota: teplá až horká<br><br>
+                🌳 Krajina<br>
+                Şivrűa je tvořena několika přírodními vrstvami. Nejvýše se nacházejí obří koruny prastarých stromů, které vytvářejí téměř vlastní svět. Pod nimi se rozprostírá zelené přítmí plné lián, kapradin a nízkých rostlin. U země je džungle mnohem temnější. Kořeny vytvářejí přirozené tunely a mosty.<br><br>
+                🐾 Tři kmeny Şivrűy:<br>
+                I. Vaelqir (Strážci korun) — Žijí v korunách nejvyšších stromů, jsou klidní a trpěliví. Jejich symbolem je otevřený list.<br>
+                II. Nhaurë (Lidé kořenů) — Žijí u země v kořenových oblastech, znají dokonale léčivé rostliny a houby.<br>
+                III. Qyraen (Strážci vod) — Jsou spojeni s řekami a jezery, dokážou předvídat počasí podle vody.`
+            },
+            {
+                number: "02",
+                name: "Aqçuarïn",
+                short: "Biom nekonečných vod a oceánů.",
+                desc: `Tady bude podrobný text pro Aqçu, který se ti zobrazí po rozkliknutí a budeš v něm moct listovat šipkami.`
+            },
+            {
+                number: "03",
+                name: "Shaqaar",
+                short: "Biom nehostinných pustin a skal.",
+                desc: `Tady bude podrobný text pro Shaqaar.`
+            }
+        ];
+
+        let currentIndex = 0;
+
+        // Vykreslení karet na stránku
+        const grid = document.getElementById('biomeGrid');
+        biomyDataforEach = biomyData.forEach((biome, index) => {
+            grid.innerHTML += `
+                <div class="biome-card" onclick="openModal(${index})">
+                    <span class="biome-number">${biome.number}</span>
+                    <h2>${biome.name}</h2>
+                    <p>${biome.short}</p>
+                </div>
+            `;
+        });
+
+        function openModal(index) {
+            currentIndex = index;
+            updateModalContent();
             document.getElementById('biomeModal').style.display = 'flex';
         }
+
         function closeModal() {
             document.getElementById('biomeModal').style.display = 'none';
         }
+
+        function updateModalContent() {
+            const biome = biomyData[currentIndex];
+            document.getElementById('modalTitle').innerText = biome.name;
+            document.getElementById('modalDescription').innerHTML = biome.desc;
+        }
+
+        function changeBiome(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) {
+                currentIndex = biomyData.length - 1; // skok na poslední
+            } else if (currentIndex >= biomyData.length) {
+                currentIndex = 0; // skok na první
+            }
+            updateModalContent();
+        }
+
+        function maybeClose(event) {
+            if (event.target.id === 'biomeModal') {
+                closeModal();
+            }
+        }
     </script>
+</body>
+</html>
