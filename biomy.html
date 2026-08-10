@@ -151,6 +151,220 @@
 
     <!-- Mřížka karet -->
     <div class="biome-grid" id="biomeGrid">
+        <!-- Karty se vygenerují automaticky -->
+    </div>
+
+    <!-- Vyskakovací okno -->
+    <div class="modal-overlay" id="biomeModal" onclick="maybeClose(event)">
+        <div class="modal-box" id="modalBox">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <button class="nav-btn prev-btn" onclick="changeBiome(-1)">&#10094;</button>
+            <button class="nav-btn next-btn" onclick="changeBiome(1)">&#10095;</button>
+            
+            <h2 id="modalTitle">Název biomu</h2>
+            <div class="modal-content-scroll">
+                <p id="modalDescription">Detailní popis biomu...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const biomyData = [
+            {
+                number: "01",
+                name: "Şivrűa",
+                short: "Biom prastarých džunglí.",
+                desc: `Şivrűa není obyčejný tropický prales. Je to hustý, vlhký a téměř nepřetržitě živý ekosystém, kde rostliny, voda, světlo a živočichové vytvářejí jeden propojený celek. Džungle je místy tak stará, že některé její části Ayru považují za starší než vlastní paměť jejich národa.<br><br>
+                &#127807; Základní charakter<br>
+                Typ: tropická pralesní džungle<br>
+                Prostředí: husté pralesy, obrovské kořenové systémy, vodní toky, skrytá údolí a zarostlé skalní oblasti<br>
+                Vlhkost: velmi vysoká | Teplota: teplá až horká<br><br>
+                &#127794; Krajina<br>
+                Şivrűa je tvořena několika přírodními vrstvami. Nejvýše se nacházejí obří koruny prastarých stromů, které vytvářejí téměř vlastní svět. Pod nimi se rozprostírá zelené přítmí plné lián, kapradin a nízkých rostlin. U země je džungle mnohem temnější. Kořeny vytvářejí přirozené tunely a mosty.<br><br>
+                Tři kmeny Şivrűy:<br>
+                I. Vaelqir (Strážci korun) — Žijí v korunách nejvyšších stromů, jsou klidní a trpěliví. Jejich symbolem je otevřený list.<br>
+                II. Nhaurë (Lidé kořenů) — Žijí u země v kořenových oblastech, znají dokonale léčivé rostliny a houby.<br>
+                III. Qyraen (Strážci vod) — Jsou spojeni s řekami a jezery, dokážou předvídat počasí podle vody.`
+            },
+            {
+                number: "02",
+                name: "Aqçu",
+                short: "Biom nekonečných vod a oceánů.",
+                desc: `Tady bude podrobný text pro Aqçu.`
+            },
+            {
+                number: "03",
+                name: "Shaqaar",
+                short: "Biom nehostinných pustin a skal.",
+                desc: `Tady bude podrobný text pro Shaqaar.`
+            }
+        ];
+
+        let currentIndex = 0;
+
+        // Vykreslení karet na stránku
+        const grid = document.getElementById('biomeGrid');
+        biomyData.forEach((biome, index) => {
+            grid.innerHTML += `
+                <div class="biome-card" onclick="openModal(${index})">
+                    <span class="biome-number">${biome.number}</span>
+                    <h2>${biome.name}</h2>
+                    <p>${biome.short}</p>
+                </div>
+            `;
+        });
+
+        function openModal(index) {
+            currentIndex = index;
+            updateModalContent();
+            document.getElementById('biomeModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('biomeModal').style.display = 'none';
+        }
+
+        function updateModalContent() {
+            const biome = biomyData[currentIndex];
+            document.getElementById('modalTitle').innerText = biome.name;
+            document.getElementById('modalDescription').innerHTML = biome.desc;
+        }
+
+        function changeBiome(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) {
+                currentIndex = biomyData.length - 1;
+            } else if (currentIndex >= biomyData.length) {
+                currentIndex = 0;
+            }
+            updateModalContent();
+        }
+
+        function maybeClose(event) {
+            if (event.target.id === 'biomeModal') {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .biome-card:hover {
+            transform: translateY(-5px);
+            border-color: #4a5d8c;
+        }
+        .biome-number {
+            font-size: 0.9rem;
+            color: #7a8fa6;
+        }
+        .biome-card h2 {
+            margin: 10px 0 5px 0;
+            color: #ffffff;
+        }
+        .biome-card p {
+            color: #b0bcd0;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* Vyskakovací okno (Modal) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 7, 12, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-box {
+            background: #131929;
+            border: 1px solid #324168;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            padding: 40px;
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-content-scroll {
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-top: 10px;
+        }
+        .modal-box h2 {
+            margin-top: 0;
+            color: #ffffff;
+            font-size: 1.8rem;
+        }
+        .modal-box p, .modal-box div {
+            color: #c5d0e0;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        /* Křížek na zavření */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: none;
+            border: none;
+            color: #a0aab5;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close-btn:hover {
+            color: #ffffff;
+        }
+        /* Šipky na přepínání */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 34, 56, 0.9);
+            border: 1px solid #3a4b7c;
+            color: #ffffff;
+            font-size: 1.5rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 1010;
+        }
+        .nav-btn:hover {
+            background: #324478;
+        }
+        .prev-btn { left: -60px; }
+        .next-btn { right: -60px; }
+
+        @media (max-width: 850px) {
+            .prev-btn { left: 10px; }
+            .next-btn { right: 10px; }
+            .modal-box { width: 95%; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Biomy Antirōsu</h1>
+    <p class="subtitle">Každý biom má vlastní prostředí, atmosféru, živý ekosystém a kulturu.</p>
+
+    <!-- Mřížka karet -->
+    <div class="biome-grid" id="biomeGrid">
         <!-- Karty se vygenerují automaticky přes JavaScript, aby fungovaly šipky -->
     </div>
 
