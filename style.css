@@ -133,3 +133,9 @@ main {
 .close-btn:hover {
     color: #fff;
 }
+
+.biomes a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
